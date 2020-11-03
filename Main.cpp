@@ -14,12 +14,8 @@
 using namespace std;
 
 int main(){
-	cout<<"Arboles ABB"<<endl<<endl;
-	cout<<"Paises"<<endl;
-	pNodoBinario paises = CargarPaises();
-	cout<<"Consultar Paises"<<endl;
-	ConsultarPaises(paises);
-	cout<<"Tipos de Trenes"<<endl;
-	pNodoTipoTren tipoTrenes = CargarTipoTrenes();
+	//Cargar estructuras
+	pNodoBinario paises = CargarPaises(); //Paises
+	pNodoTipoTren tipoTrenes = CargarTipoTrenes();//Tipos de Tren
     return 0;
 }

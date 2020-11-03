@@ -69,6 +69,23 @@ void InsertarNodoPais(pNodoBinario &paises,int num, string nombre){
 	}
 }
 
+void InsertarPais(pNodoBinario &paises){
+	int codPais;
+	string nombrePais;
+	cout<<"Ingrese el codigo del pais nuevo: "<<endl;
+	cin>>codPais;
+	cout<<"Ingrese el nombre del pais: "<<endl;
+	cin>>nombrePais;
+	if(ExistePais(paises,codPais)){
+		cout<<"El codigo del pais ingresado ya existe."<<endl;
+	}
+	else{
+		InsertarNodoPais(paises,codPais,nombrePais);
+		cout<<"El pais fue ingresado con exito."<<endl;
+	}
+	
+}
+
 pNodoBinario CargarPaises(){
 	pNodoBinario paises = NULL;
 	ifstream archivo;
