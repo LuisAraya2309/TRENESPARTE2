@@ -49,7 +49,7 @@ void PreordenR(NodoBinario *R){
         return;
     }
 	else{
-        cout<<R->valor<<" -> ";
+        cout<<R->valor<<"-"<<R->nombre<<"->";
         PreordenR(R->Hizq);
         PreordenR(R->Hder);
     }
@@ -107,6 +107,10 @@ pNodoBinario CargarPaises(){
 	return paises;
 }
 
+void ConsultarPaises(pNodoBinario &paises){
+	PreordenR(paises);
+	cout<<endl;
+}
 
 
 

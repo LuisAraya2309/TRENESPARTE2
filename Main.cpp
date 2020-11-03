@@ -17,6 +17,8 @@ int main(){
 	cout<<"Arboles ABB"<<endl<<endl;
 	cout<<"Paises"<<endl;
 	pNodoBinario paises = CargarPaises();
+	cout<<"Consultar Paises"<<endl;
+	ConsultarPaises(paises);
 	cout<<"Tipos de Trenes"<<endl;
 	pNodoTipoTren tipoTrenes = CargarTipoTrenes();
     return 0;
