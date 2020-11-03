@@ -25,8 +25,6 @@ class NodoBinario {
 
     friend class Pila;
     friend class Binario;
-	//Metodos
-    void InsertaBinario(string num);
 };
 
 typedef NodoBinario *pNodoBinario;

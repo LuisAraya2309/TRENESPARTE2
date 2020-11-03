@@ -1,0 +1,4 @@
+12;1234;Salzburgo
+10;789;Gemenos
+20;678;Praga
+456;96;Berlin
