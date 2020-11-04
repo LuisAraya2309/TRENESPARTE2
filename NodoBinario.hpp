@@ -174,6 +174,26 @@ void CargarCiudades(pNodoBinario& paises ){
 	}
 }
 
+
+void InsertarCiudad(pNodoBinario& paises ){
+    int codPais; cout<<"Ingrese le codigo del pais al que pertenece la ciudad: "; cin>>codPais; cout<<endl;
+    if(ExistePais(paises,codPais)){
+    	pNodoBinario pais = DevolverPais(paises,codPais);
+        int codCiudad; cout<<"Ingrese el codigo de la ciudad: "; cin>>codCiudad; cout<<endl;
+        string nomCiudad; cout<<"Ingrese el nombre de la ciudad: "; cin>>nomCiudad; cout<<endl;
+    	if(!ExisteCiudad(pais->ciudad,codCiudad)){
+    		pais->ciudad = insertarnodoAVL(pais->ciudad,codCiudad,nomCiudad);
+		}
+		else{
+			cout<<"El codigo de la ciudad ya existe"<<endl;
+		}
+	}
+	else{
+		cout<<"El pais no existe"<<endl;
+	}
+}
+
+
 //Consultar Paises
 void ConsultarPaises(pNodoBinario &paises){
 	PreordenR(paises);
@@ -183,7 +203,7 @@ void ConsultarPaises(pNodoBinario &paises){
 //Consultar Ciudades
 void preOrder(NodoAVL *raiz)  {  
     if(raiz != NULL)  {  
-        cout <<raiz->codCiudad<<"-"<<raiz->nombre<<"->";  
+        cout <<raiz->codCiudad<<"-"<<raiz->nombre<<endl;  
         preOrder(raiz->izquierda);  
         preOrder(raiz->derecha);  
     }  
@@ -191,14 +211,11 @@ void preOrder(NodoAVL *raiz)  {
 
 void ConsultarCiudades(pNodoBinario &paises){
 	int paisAux;
-	cout<<"Ingrese el codigo del pais para ver las ciudades: "<<endl;
-	cin>>paisAux;
+	cout<<"Ingrese el codigo del pais para ver las ciudades: ";cin>>paisAux; cout<<endl;
 	pNodoBinario pais = DevolverPais(paises,paisAux);
 	cout<<"Ciudades de ese pais: "<<endl;
 	preOrder(pais->ciudad);
 }
-
-
 
 #endif	
 

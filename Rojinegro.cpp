@@ -4,78 +4,78 @@
 
 using namespace std;
 
-class NodoBinarioRN {
+class NodoRojiN {
    public:
 
-    NodoBinarioRN(int num, NodoBinarioRN *der = NULL, NodoBinarioRN *izq = NULL, NodoBinarioRN *papa = NULL):
+    NodoRojiN(int num, NodoRojiN *der = NULL, NodoRojiN *izq = NULL, NodoRojiN *papa = NULL):
         Hizq(izq), Hder(der), valor(num), padre(papa){}
 
 
     int valor;
     char color;
-    NodoBinarioRN *padre;
-    NodoBinarioRN *Hizq, *Hder;
+    NodoRojiN *padre;
+    NodoRojiN *Hizq, *Hder;
 
     friend class ARN;
 };
 
-typedef NodoBinarioRN *pnodoRN;
-typedef NodoBinarioRN *pNodoBinarioRN;
+typedef NodoRojiN *pnodoRN;
+typedef NodoRojiN *pNodoBinarioRN;
 
-class ARN{
+class ArbolRN{
 public:
     pNodoBinarioRN raiz;
 
-    ARN():raiz(NULL){}
+    ArbolRN():raiz(NULL){}
 
     void insercion(int key);
     void solucionarRojoRojo(pnodoRN nodoAux, int ladoH);
 };
 
-void PreordenR(NodoBinarioRN *R){
+void PreordenRN(NodoRojiN *R){
     
     if(R==NULL){
         return;
     }else{
         cout<<R->valor<< ", "<< R->color<<" - ";
-        PreordenR(R->Hizq);
-        PreordenR(R->Hder);
+        PreordenRN(R->Hizq);
+        PreordenR(NR->Hder);
     }
 }
 
-void InordenR(NodoBinarioRN *R){
+void InordenRN(NodoRojiN *R){
 
     if(R==NULL){
         return;
     }else{
-        InordenR(R->Hizq);
+        InordenRN(R->Hizq);
         cout<<R->valor<< ", "<< R->color<<" - ";
-        InordenR(R->Hder);
+        InordenRN(R->Hder);
     }
 }
 
-void PostordenR(NodoBinarioRN *R){
+void PostordenRN(NodoRojiN *R){
 
     if(R==NULL){
         return;
     }else{
-        PostordenR(R->Hizq);
-        PostordenR(R->Hder);
+        PostordenRN(R->Hizq);
+        PostordenRN(R->Hder);
         cout<<R->valor<<" - ";
     }
 }
 
-void ARN::insercion(int key){
+void ArbolRN::insercionRN(int key){
   int ladohijo;
   pnodoRN hijo;
   pnodoRN ayudante;
   int bandera;
   if(!raiz){ // el arbol esta vacio cargando como raiz
-    raiz = new NodoBinarioRN(key); 
+    raiz = new NodoRojiN(key); 
     raiz->color='n';
   }
   else{ // el arbol no esta vacio buscando su lugar
-    hijo = new NodoBinarioRN(key);
+    hijo = new NodoRojiN(key);
     hijo->color='r'; 
     ayudante=raiz;
     do{

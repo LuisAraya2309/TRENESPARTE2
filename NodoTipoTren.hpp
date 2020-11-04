@@ -12,6 +12,7 @@ class NodoTipoTren {
 	NodoTipoTren(int v,string pnombre){
 		valor = v;
 		nombre =pnombre;
+		tren = Null;
 		Hder = NULL;
 		Hizq = NULL;
 		siguiente = NULL;
@@ -21,6 +22,7 @@ class NodoTipoTren {
 	//Atributos
     int valor;
     string nombre;
+    NodoAVLTren *tren;
     NodoTipoTren *Hizq, *Hder, *siguiente, *anterior;
 
     friend class Pila;

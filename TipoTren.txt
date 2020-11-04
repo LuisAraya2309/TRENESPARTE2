@@ -2,5 +2,5 @@
 02;Eurail
 03;Panoramico
 04;Nocturno
-2;Lol
-2;dfa
+04;Nocturno
+03;Panoramico
