@@ -18,6 +18,7 @@ int main(){
 	pNodoBinario paises = CargarPaises(); //Paises
 	pNodoTipoTren tipoTrenes = CargarTipoTrenes();//Tipos de Tren
 	
+	
 	//---------------------------------------------------------Menu Principal------------------------------------------------- 
     /*int opcion; int codPais;string nomPais; int codCiudad;string nomCiudad;int codConexion;int codPais2;int codCiudad2;int codTiempo;int codUsuario;int registrar;bool bandera=true;
 	do { 
