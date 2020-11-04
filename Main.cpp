@@ -17,6 +17,11 @@ int main(){
 	//Cargar estructuras
 	pNodoBinario paises = CargarPaises(); //Paises
 	pNodoTipoTren tipoTrenes = CargarTipoTrenes();//Tipos de Tren
+	CargarCiudades(paises);
+	cout<<"Paises"<<endl;
+	PreordenR(paises);
+	cout<<endl;
+	ConsultarCiudades(paises);
 	
 	
 	//---------------------------------------------------------Menu Principal------------------------------------------------- 

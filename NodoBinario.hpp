@@ -6,12 +6,14 @@
 #include<fstream>
 #include<iostream>
 #include <stdlib.h>
+#include "NodoAVL.hpp"
 using namespace std;
 class NodoBinario {
    public:
 	NodoBinario(int v,string pnombre){
 		valor = v;
 		nombre =pnombre;
+		ciudad = NULL;
 		Hder = NULL;
 		Hizq = NULL;
 		siguiente = NULL;
@@ -22,6 +24,7 @@ class NodoBinario {
     int valor;
     string nombre;
     NodoBinario *Hizq, *Hder, *siguiente, *anterior;
+    NodoAVL *ciudad;
 
     friend class Pila;
     friend class Binario;
@@ -123,10 +126,76 @@ pNodoBinario CargarPaises(){
 	}
 	return paises;
 }
+//Devuelve un pais
+pNodoBinario DevolverPais(pNodoBinario &R,int pais){
+	 if(R->valor==pais){
+	 	return R;
+	 }
+	 else if(pais<=R->valor){
+	 	return DevolverPais(R->Hizq,pais);
+	 }
+	 else{
+	 	return DevolverPais(R->Hder,pais);
+	 }
+}
+//Cargar Ciudades
+void CargarCiudades(pNodoBinario& paises ){
+	ifstream archivo;
+    string texto;
+    archivo.open("Ciudades.txt",ios::in);
+    if (archivo.fail()){
+        cout<<"No se pudo abrir el archivo";
+        exit(1);
+    }
+    else{
+    	while(!archivo.eof()){
+    		getline(archivo,texto);
+    		int posPC = texto.find(";");
+		    int codPais = atoi(texto.substr(0, posPC).c_str());
+		    if(ExistePais(paises,codPais)){
+		    	pNodoBinario pais = DevolverPais(paises,codPais);
+		    	string CiudadTotal = texto.substr(posPC + 1, texto.length());
+		        int auxPC = CiudadTotal.find(";");
+		        int codCiudad = atoi(CiudadTotal.substr(0, auxPC).c_str());
+		        string nomCiudad = CiudadTotal.substr(auxPC+1, CiudadTotal.length());
+		    	if(!ExisteCiudad(pais->ciudad,codCiudad)){
+		    		pais->ciudad = insertarnodoAVL(pais->ciudad,codCiudad,nomCiudad);
+				}
+				else{
+					continue;
+				}
+			}
+			else{
+				continue;
+			}
+    		
+    	}//llave del while
+    	archivo.close();
+	}
+}
 
+//Consultar Paises
 void ConsultarPaises(pNodoBinario &paises){
 	PreordenR(paises);
 	cout<<endl;
+}
+
+//Consultar Ciudades
+void preOrder(NodoAVL *raiz)  {  
+    if(raiz != NULL)  {  
+        cout <<raiz->codCiudad<<"-"<<raiz->nombre<<"->";  
+        preOrder(raiz->izquierda);  
+        preOrder(raiz->derecha);  
+    }  
+}
+
+void ConsultarCiudades(pNodoBinario &paises){
+	int paisAux;
+	cout<<"Ingrese el codigo del pais para ver las ciudades: "<<endl;
+	cin>>paisAux;
+	pNodoBinario pais = DevolverPais(paises,paisAux);
+	cout<<"Ciudades de ese pais: "<<endl;
+	preOrder(pais->ciudad);
 }
 
 

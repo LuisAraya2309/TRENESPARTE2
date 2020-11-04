@@ -5,11 +5,12 @@
 #include<fstream>
 #include<iostream>
 #include <stdlib.h>
+#pragma once
 using namespace std;
 
 class NodoAVL{  
     public: 
-    int CodCiudad;
+    int codCiudad;
 	string nombre;  
     NodoAVL *izquierda;  
     NodoAVL *derecha;  
@@ -17,16 +18,16 @@ class NodoAVL{
 };  
 
 //Funcion para obtener el balance de un nodo
-int balanceo(NodoAVL *N){  
-    if (N == NULL)  
-        return 0;  
-    return FB(N->izquierda) - FB(N->derecha);  
-}  
-
+  
 int FB(NodoAVL *N){  
     if (N == NULL)  
         return 0;  
     return N->FB;  
+}
+int balanceo(NodoAVL *N){  
+    if (N == NULL)  
+        return 0;  
+    return FB(N->izquierda) - FB(N->derecha);  
 }  
   
 //Obtiene el numero mayor para identificar a la hora de ingresar en el arbol
@@ -36,18 +37,18 @@ int numeroMayor(int a, int b){
     return (a > b)? a : b;  
 }  
  
-NodoAVL* new NodoAVL(int codCiudad,string pnombre){  
-    NodoAVL* NodoAVL = new NodoAVL(); 
-    NodoAVL->codCiudad = codCiudad;
-	NodoAVL->nombre = pnombre;  
-    NodoAVL->izquierda = NULL;  
-    NodoAVL->derecha = NULL;  
-    NodoAVL->FB = 1; 
-    return(NodoAVL);  
+NodoAVL* newNodoAVL(int codCiudad,string pnombre){  
+    NodoAVL *nodoAVL = new NodoAVL(); 
+    nodoAVL->codCiudad = codCiudad;
+	nodoAVL->nombre = pnombre;  
+    nodoAVL->izquierda = NULL;  
+    nodoAVL->derecha = NULL;  
+    nodoAVL->FB = 1; 
+    return(nodoAVL);  
 }  
    
 NodoAVL *RotacionDerecha(NodoAVL *y)  {  
-    NodoAVL *x = y->izquierda;  
+    NodoAVL *raizN = y->izquierda;  
     NodoAVL *T2 = raizN->derecha;  
   
     raizN->derecha = y;  
@@ -80,12 +81,12 @@ NodoAVL *RotacionIzquierda(NodoAVL *x) {
 NodoAVL* insertarnodoAVL(NodoAVL* nodo, int codCiudad,string nombre)  {  
 	//Si la raiz es nula
     if (nodo == NULL){
-    	return(new NodoAVL(codCiudad,nombre));  
+    	return(newNodoAVL(codCiudad,nombre));  
 	}//else
 	if (codCiudad < nodo->codCiudad){
     	nodo->izquierda = insertarnodoAVL(nodo->izquierda, codCiudad ,nombre);  
 	}else if (codCiudad > nodo->codCiudad){
-    	nodo->derecha = insertarnodoAVL(nodo->right, codCiudad,nombre);  
+    	nodo->derecha = insertarnodoAVL(nodo->derecha, codCiudad,nombre);  
 	}else{
 		return nodo;  
 	}   
@@ -96,12 +97,12 @@ NodoAVL* insertarnodoAVL(NodoAVL* nodo, int codCiudad,string nombre)  {
     
     //Casos de las rotaciones
     //ROTACION IZQUIERDA 
-    if (balance > 1 && codCiudad < nodo->izquierda->CodCiudad){
+    if (balance > 1 && codCiudad < nodo->izquierda->codCiudad){
     	return RotacionDerecha(nodo);  
 	}
     // ROTACION DERECHA
     if (balance < -1 && codCiudad > nodo->derecha->codCiudad){
-    	return RotacionIzquierda(node);  
+    	return RotacionIzquierda(nodo);  
 	} 
     //ROTACION DOBLE IZQUIERDA 
     if (balance > 1 && codCiudad > nodo->izquierda->codCiudad){  
@@ -117,10 +118,19 @@ NodoAVL* insertarnodoAVL(NodoAVL* nodo, int codCiudad,string nombre)  {
     return nodo;  
 } 
 
-void preOrder(NodoAVL *raiz)  {  
-    if(raiz != NULL)  {  
-        cout <<raiz->CodCiudad<<"-"<<raiz->nombre<<"->";  
-        preOrder(raiz->izquierda);  
-        preOrder(raiz->derecha);  
-    }  
-}  
+
+bool ExisteCiudad(NodoAVL *R,int ciudad){
+	 if(R==NULL){
+	 	return false;
+	 }
+	 else if(R->codCiudad==ciudad){
+	 	return true;
+	 }
+	 else if(ciudad<=R->codCiudad){
+	 	return ExisteCiudad(R->izquierda,ciudad);
+	 }
+	 else{
+	 	return ExisteCiudad(R->derecha,ciudad);
+	 }
+}
+
