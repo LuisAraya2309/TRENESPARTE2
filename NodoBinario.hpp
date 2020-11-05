@@ -248,6 +248,18 @@ bool ExisteConexion(pNodoBinarioRN R,int codConexion){
 }
 
 
+pNodoBinarioRN DevolverConexion(pNodoBinarioRN R,int codConexion){
+	if(R->valor==codConexion){
+	 	return R;
+	 }
+	 else if(codConexion<=R->valor){
+	 	return DevolverConexion(R->Hizq,codConexion);
+	 }
+	 else{
+	 	return DevolverConexion(R->Hder,codConexion);
+	 }
+}
+
 //Cargar Conexiones
 void CargarConexiones(pNodoBinario &paises){
 	ifstream archivo;
@@ -290,6 +302,36 @@ void CargarConexiones(pNodoBinario &paises){
     }
 }
 
+void InsertarConexion(pNodoBinario &paises){
+	int codPais; cout<<"Ingrese el codigo del pais: "; cin>>codPais; cout<<endl;
+	int codCiudad; cout<<"Ingrese el codigo de la ciudad: "; cin>>codCiudad; cout<<endl;
+	int codConexion; cout<<"Ingrese el codigo de la conexion: "; cin>>codConexion; cout<<endl;
+	int codPais2; cout<<"Ingrese el codigo del pais destino: "; cin>>codPais2; cout<<endl;
+	int codCiudad2; cout<<"Ingrese el codigo de la ciudad destino: "; cin>>codCiudad2; cout<<endl;
+	int codTiempo; cout<<"Ingrese la cantidad de tiempo de la conexion: "; cin>>codTiempo; cout<<endl;
+	if((ExistePais(paises,codPais))&&(ExistePais(paises,codPais2))){
+		pNodoBinario paisAux = DevolverPais(paises,codPais);
+		pNodoBinario paisAux2 = DevolverPais(paises,codPais2);
+		if((ExisteCiudad(paisAux->ciudad,codCiudad))&&(ExisteCiudad(paisAux2->ciudad,codCiudad2))){
+			NodoAVL *ciudadAux = DevolverCiudad(paisAux->ciudad,codCiudad);
+			if(!ExisteConexion(ciudadAux->conexiones.raiz,codConexion)){
+				ciudadAux->conexiones.insercionRN(codConexion,codPais2,codCiudad2,codTiempo);
+				cout<<"Conexion Ingresada con exito"<<endl;
+			}
+			else{
+				cout<<"El codigo de la conexion ya existe"<<endl;
+			}
+		}
+		else{
+			cout<<"La ciudad de origen o destino de la conexion no existe"<<endl;
+		}
+	}
+	else{
+		cout<<"El pais de origen o destino de la conexion no existe"<<endl;
+	}
+}
+
+
 void ConsultarConexiones(pNodoBinario &paises){
 	int paisAux;
 	cout<<"Ingrese el codigo del pais: ";cin>>paisAux; cout<<endl;
@@ -299,6 +341,34 @@ void ConsultarConexiones(pNodoBinario &paises){
 	NodoAVL *ciudadAux = DevolverCiudad(pais->ciudad,codCiudad);
 	PreordenRN(ciudadAux->conexiones.raiz);
 }
+
+void ModificarTiempo(pNodoBinario &paises){
+	int codPais; cout<<"Ingrese el codigo del pais: "; cin>>codPais; cout<<endl;
+	int codCiudad; cout<<"Ingrese el codigo de la ciudad: "; cin>>codCiudad; cout<<endl;
+	int codConexion; cout<<"Ingrese el codigo de la conexion: "; cin>>codConexion; cout<<endl;
+	int codTiempo; cout<<"Ingrese la cantidad de tiempo nueva de la conexion: "; cin>>codTiempo; cout<<endl;
+	if(ExistePais(paises,codPais)){
+		pNodoBinario paisAux = DevolverPais(paises,codPais);
+		if(ExisteCiudad(paisAux->ciudad,codCiudad)){
+			NodoAVL *ciudadAux = DevolverCiudad(paisAux->ciudad,codCiudad);
+			if(ExisteConexion(ciudadAux->conexiones.raiz,codConexion)){
+				pNodoBinarioRN cambio = DevolverConexion(ciudadAux->conexiones.raiz, codConexion);
+				cout<<"El nuevo tiempo estimado del viaje es de "<<(cambio->tiempo = codTiempo)<< " horas"<<endl;
+			}
+			else{
+				cout<<"El codigo de la conexion no existe"<<endl;
+			}
+		}
+		else{
+			cout<<"La ciudad de origen o destino de la conexion no existe"<<endl;
+		}
+	}
+	else{
+		cout<<"El pais de origen o destino de la conexion no existe"<<endl;
+	}
+}
+
+
 
 #endif	
 

@@ -223,6 +223,55 @@ void ConsultarTrenes(pNodoTipoTren& tipoTrenes){
 	cout<<endl;
 }
 
+void CantAsientos(pNodoTipoTren& tipoTrenes ){
+	int codTipTren; cout<<"Ingrese el codigo de tipo de tren: "; cin>>codTipTren; cout<<endl;
+	int codTren; cout<<"Ingrese el codigo de tren: "; cin>>codTren; cout<<endl;
+	if(ExisteTipoTren(tipoTrenes,codTipTren)){
+    	pNodoTipoTren tipoTren = DevolverTipoTren(tipoTrenes,codTipTren);
+    	if(ExisteTren(tipoTren->tren,codTren)){
+    		cout<<"La cantidad de asientos del tren es: "<<tipoTren->tren->cantAsientos<<endl;
+		}else{
+			cout<<"El codigo de tren no existe"<<endl;
+		}	
+	}else{
+		cout<<"El codigo de tipo de tren no existe"<<endl;
+	}
+}
+
+void ModificarAsientos(pNodoTipoTren& tipoTrenes ){
+	int codTipTren; cout<<"Ingrese el codigo de tipo de tren: "; cin>>codTipTren; cout<<endl;
+	int codTren; cout<<"Ingrese el codigo de tren: "; cin>>codTren; cout<<endl;
+	int numAsientos; cout<<"Ingrese la nueva cantidad de asientos disponibles: "; cin>>numAsientos; cout<<endl;
+	if(ExisteTipoTren(tipoTrenes,codTipTren)){
+    	pNodoTipoTren tipoTren = DevolverTipoTren(tipoTrenes,codTipTren);
+    	if(ExisteTren(tipoTren->tren,codTren)){
+    		cout<<"La cantidad de asientos nueva del tren es: "<<(tipoTren->tren->cantAsientos = numAsientos)<<endl;
+		}else{
+			cout<<"El codigo de tren no existe"<<endl;
+		}	
+	}else{
+		cout<<"El codigo de tipo de tren no existe"<<endl;
+	}
+}
+
+void ModificarTren(pNodoTipoTren& tipoTrenes ){
+	int codTipTren; cout<<"Ingrese el codigo de tipo de tren: "; cin>>codTipTren; cout<<endl;
+	int codTren; cout<<"Ingrese el codigo de tren: "; cin>>codTren; cout<<endl;
+	string nomTren; cout<<"Ingrese el nuevo nombre del tren: "; cin>>nomTren; cout<<endl;
+	int numAsientos; cout<<"Ingrese la nueva cantidad de asientos disponibles: "; cin>>numAsientos; cout<<endl;
+	if(ExisteTipoTren(tipoTrenes,codTipTren)){
+    	pNodoTipoTren tipoTren = DevolverTipoTren(tipoTrenes,codTipTren);
+    	if(ExisteTren(tipoTren->tren,codTren)){
+    		tipoTren->tren->cantAsientos = numAsientos;
+    		tipoTren->tren->nombre = nomTren;
+    		cout<<"Tren modificado con exito"<<endl;
+		}else{
+			cout<<"El codigo de tren no existe"<<endl;
+		}	
+	}else{
+		cout<<"El codigo de tipo de tren no existe"<<endl;
+	}
+}
 
 #endif	
 

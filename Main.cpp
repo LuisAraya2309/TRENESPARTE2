@@ -21,16 +21,11 @@ int main(){
 	CargarCiudades(paises);//Ciudades
 	CargarConexiones(paises);//Conexiones
 	
-	
 	pNodoTipoTren tipoTrenes = CargarTipoTrenes();//Tipos de Tren
 	CargarTrenes(tipoTrenes);//Trenes
 	
 	listaC rutas;
-	rutas.CargarRutas(paises,tipoTrenes);
-	rutas.Mostrar();
-	
-	
-	
+	rutas.CargarRutas(paises,tipoTrenes); //Rutas
 	
 	//---------------------------------------------------------Menu Principal------------------------------------------------- 
     /*int opcion; int codPais;string nomPais; int codCiudad;string nomCiudad;int codConexion;int codPais2;int codCiudad2;int codTiempo;int codUsuario;int registrar;bool bandera=true;

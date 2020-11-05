@@ -59,13 +59,18 @@ public:
     void InsertarFinal(int v, int trenc, int rutac, int paisc, int ciudadc, int pais2c, int ciudad2c,int precioc); 
     void InsertarPos(int v, int trenc, int rutac, int paisc, int ciudadc, int pais2c, int ciudad2c,int precioc, int pos); 
     bool ListaVacia() { return primero == NULL; } 
-    void Mostrar(); 
+    void ConsultarRuta(); 
     void BorrarFinal(); 
     void BorrarInicio(); 
     void borrarPosicion(int pos); 
     int largoLista(); 
     void CargarRutas(pNodoBinario &paises,pNodoTipoTren &tipoTrenes);
     bool ExisteRuta(int codRuta);
+    void InsertarRutas(pNodoBinario &paises,pNodoTipoTren &tipoTrenes);
+    void ModificarRutas(pNodoBinario &paises);
+    void ModificarPrecio(pNodoBinario &paises);
+    void ConsultarPrecio(pNodoBinario &paises);
+    pnodoCir DevolverRuta(int codRuta);
 public:
     pnodoCir primero; 
  
@@ -249,34 +254,55 @@ void listaC::borrarPosicion(int pos)
     } 
 } 
  
-void listaC::Mostrar() 
-{ 
-    pnodoCir aux = primero; 
-    while (aux->siguiente != primero) 
-    { 
-        cout << aux->codTipTren << "-" << aux->codTren << "-" << aux->codRutas << "-" << aux->codPais1 << "-"<< aux->codCiudad1 << "-"<< aux->codPais2 << "-"<< aux->codCiudad2 <<"-"<< aux->precio << "-> "; 
+void listaC::ConsultarRuta() { 
+    pnodoCir aux = primero;
+    if(aux== NULL){
+    	cout<<"No hay ninuna ruta registrada"<<endl;
+	}else{
+		while (aux->siguiente != primero) { 
+        cout <<"Tipo tren: "<<aux->codTipTren << " Tren: " << aux->codTren << " Ruta: " << aux->codRutas << " Pais1: " << aux->codPais1 << " Ciudad1: "<< aux->codCiudad1 << " Pais2: "<< aux->codPais2 << " Ciudad2: "<< aux->codCiudad2 <<" Precio: "<< aux->precio << "-> "<<endl; 
         aux = aux->siguiente; 
-    } 
-    cout << aux->codTipTren << "-" << aux->codTren << "-" << aux->codRutas << "-" << aux->codPais1 << "-"<< aux->codCiudad1 << "-"<< aux->codPais2 << "-"<< aux->codCiudad2 <<"-"<< aux->precio << "-> "; 
-    cout << endl; 
+	    } 
+	    cout <<"Tipo tren: "<<aux->codTipTren << " Tren: " << aux->codTren << " Ruta: " << aux->codRutas << " Pais1: " << aux->codPais1 << " Ciudad1: "<< aux->codCiudad1 << " Pais2: "<< aux->codPais2 << " Ciudad2: "<< aux->codCiudad2 <<" Precio: "<< aux->precio << "-> "<<endl;
+	    cout << endl; 	
+	}
 }
 
 //CargarRutas
 bool listaC::ExisteRuta(int codRuta){
-	pnodoCir aux = primero;
-	while(aux->siguiente != primero){
+	pnodoCir aux = primero; bool bandera = false;
+	if(aux==NULL){
+		return false;
+	}else{
+		while(aux->siguiente != primero){
+			if(aux->codRutas==codRuta){
+				return true;
+			}
+			else{
+				aux = aux->siguiente; 
+			}
+		}
 		if(aux->codRutas==codRuta){
 			return true;
+		}
+		else{
+			return false;
+		}
+	}
+}
+
+pnodoCir listaC::DevolverRuta(int codRuta){
+	pnodoCir aux = primero; bool bandera = false;
+	while(aux->siguiente != primero){
+		if(aux->codRutas==codRuta){
+			return aux;
 		}
 		else{
 			aux = aux->siguiente; 
 		}
 	}
 	if(aux->codRutas==codRuta){
-		return true;
-	}
-	else{
-		return false;
+		return aux;
 	}
 }
 
@@ -308,7 +334,7 @@ void listaC::CargarRutas(pNodoBinario &paises,pNodoTipoTren &tipoTrenes){
 						pNodoTipoTren trenAux = DevolverTipoTren(tipoTrenes,codTipTren);
 						if(ExisteTren(trenAux->tren,codTren)){
 							if(!ExisteRuta(codRuta)){
-								InsertarFinal(codTipTren,codTren,codRuta,codPais,codCiudad,codPais2,codCiudad2,codPrecio);
+								InsertarFinal(codTipTren,codTren,codRuta,codPais,codCiudad,codPais2,codCiudad2,codPrecio);					
 							}
 							else{
 								continue;
@@ -328,9 +354,107 @@ void listaC::CargarRutas(pNodoBinario &paises,pNodoTipoTren &tipoTrenes){
 			}
 			else{
 				continue;
-			}
-	        
+			} 
     	}
+    	archivo.close();
     }
 }
- 
+
+
+void listaC::InsertarRutas(pNodoBinario &paises,pNodoTipoTren &tipoTrenes){
+	int codTipTren; cout<<"Ingrese el codigo tipo de tren: "; cin>>codTipTren; cout<<endl;
+	int codTren; cout<<"Ingrese el codigo de tren: "; cin>>codTren; cout<<endl;
+	int codRuta; cout<<"Ingrese el codigo de la ruta: "; cin>>codRuta; cout<<endl;
+	int codPais; cout<<"Ingrese el codigo del pais: "; cin>>codPais; cout<<endl;
+	int codCiudad; cout<<"Ingrese el codigo de la ciudad: "; cin>>codCiudad; cout<<endl;
+	int codPais2; cout<<"Ingrese el codigo del pais destino: "; cin>>codPais2; cout<<endl;
+	int codCiudad2; cout<<"Ingrese el codigo de la ciudad destino: "; cin>>codCiudad2; cout<<endl;
+	int codPrecio; cout<<"Ingrese el precio de la ruta: "; cin>>codPrecio; cout<<endl;
+	if(ExistePais(paises,codPais)&&(ExistePais(paises,codPais2))){
+    	pNodoBinario paisAux = DevolverPais(paises,codPais);
+		pNodoBinario paisAux2 = DevolverPais(paises,codPais2);
+		if((ExisteCiudad(paisAux->ciudad,codCiudad))&&(ExisteCiudad(paisAux2->ciudad,codCiudad2))){
+			if(ExisteTipoTren(tipoTrenes,codTipTren)){
+				pNodoTipoTren trenAux = DevolverTipoTren(tipoTrenes,codTipTren);
+				if(ExisteTren(trenAux->tren,codTren)){
+					if(!ExisteRuta(codRuta)){
+						InsertarFinal(codTipTren,codTren,codRuta,codPais,codCiudad,codPais2,codCiudad2,codPrecio);					
+					}
+					else{
+						cout<<"El codigo de ruta ya existe"<<endl;
+					}
+				}
+				else{
+					cout<<"El codigo de tren no existe"<<endl;
+				}
+			}
+			else{
+				cout<<"El codigo de tipo de tren no existe"<<endl;
+			}
+		}
+		else{
+			cout<<"La ciudad de origen o destino no existe"<<endl;
+		}
+	}
+	else{
+		cout<<"El pais de origen o destino no existe"<<endl;
+	} 
+}
+
+void listaC :: ModificarRutas(pNodoBinario &paises){
+	int codRuta; cout<<"Ingrese el codigo de la ruta: "; cin>>codRuta; cout<<endl;
+	int codPais; cout<<"Ingrese el codigo nuevo del pais: "; cin>>codPais; cout<<endl;
+	int codCiudad; cout<<"Ingrese el codigo nuevo de la ciudad: "; cin>>codCiudad; cout<<endl;
+	int codPais2; cout<<"Ingrese el codigo nuevo del pais destino: "; cin>>codPais2; cout<<endl;
+	int codCiudad2; cout<<"Ingrese el codigo nuevo de la ciudad destino: "; cin>>codCiudad2; cout<<endl;
+	int codPrecio; cout<<"Ingrese el precio nuevo de la ruta: "; cin>>codPrecio; cout<<endl;
+	if(ExistePais(paises,codPais)&&(ExistePais(paises,codPais2))){
+    	pNodoBinario paisAux = DevolverPais(paises,codPais);
+		pNodoBinario paisAux2 = DevolverPais(paises,codPais2);
+		if((ExisteCiudad(paisAux->ciudad,codCiudad))&&(ExisteCiudad(paisAux2->ciudad,codCiudad2))){
+			if(ExisteRuta(codRuta)){
+				pnodoCir cambio = DevolverRuta(codRuta);
+				cambio->codPais1 = codPais;
+				cambio->codPais2 = codPais2;
+				cambio->codCiudad1 = codCiudad;
+				cambio->codCiudad2 = codCiudad2;
+				cambio->precio = codPrecio;	
+				cout<<"Modificacion exitosa"<<endl;			
+			}
+			else{
+				cout<<"El codigo de ruta no existe"<<endl;
+			}
+		}
+		else{
+			cout<<"La ciudad de origen o destino no existe"<<endl;
+		}
+	}
+	else{
+		cout<<"El pais de origen o destino no existe"<<endl;
+	} 
+}
+
+void listaC :: ModificarPrecio(pNodoBinario &paises){
+	int codRuta; cout<<"Ingrese el codigo de la ruta: "; cin>>codRuta; cout<<endl;
+	int codPrecio; cout<<"Ingrese el precio nuevo de la ruta: "; cin>>codPrecio; cout<<endl;
+	if(ExisteRuta(codRuta)){
+		pnodoCir cambio = DevolverRuta(codRuta);
+		cambio->precio = codPrecio;	
+		cout<<"Modificacion exitosa"<<endl;			
+	}
+	else{
+		cout<<"El codigo de ruta no existe"<<endl;
+	}
+}
+
+void listaC :: ConsultarPrecio(pNodoBinario &paises){
+	int codRuta; cout<<"Ingrese el codigo de la ruta: "; cin>>codRuta; cout<<endl;
+	if(ExisteRuta(codRuta)){
+		pnodoCir cambio = DevolverRuta(codRuta);
+		cout<<"El precio de la ruta es de "	<<cambio->precio<<endl;	
+	}
+	else{
+		cout<<"El codigo de ruta no existe"<<endl;
+	}
+
+}
