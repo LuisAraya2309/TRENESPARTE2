@@ -267,13 +267,13 @@ void CargarConexiones(pNodoBinario &paises){
 			if(ExistePais(paises,codPais)){
 				pNodoBinario paisAux = DevolverPais(paises,codPais);
 				if(ExisteCiudad(paisAux->ciudad,codCiudad)){
-					NodoAVL *ciudadAux = DevolverCiudad(paisAux->ciudad,codCiudad);
+					/*NodoAVL *ciudadAux = DevolverCiudad(paisAux->ciudad,codCiudad);
 					if(!ExisteConexion(*ciudadAux->conexiones->raiz,codConexionAux)){
 						
 					}
 					else{
 						continue;
-					}
+					}*/
 				}
 				else{
 					continue;

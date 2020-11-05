@@ -7,6 +7,7 @@
 #include<iostream>
 #include <stdlib.h>
 #include "TrenAVL.hpp"
+
 using namespace std;
 class NodoTipoTren {
    public:
@@ -109,6 +110,21 @@ pNodoTipoTren CargarTipoTrenes(){
 	return tipoTrenes;
 }
 
+void InsertarTipoTrenes(pNodoTipoTren &tipoTrenes){
+	int codTipTren; cout<<"Ingrese el codigo de tipo de tren: "; cin>>codTipTren; cout<<endl;
+	string nomTipTren; cout<<"Ingrese el nombre del tipo de tren: "; cin>>nomTipTren; cout<<endl;
+	if(tipoTrenes==NULL){
+		tipoTrenes = new NodoTipoTren(codTipTren,nomTipTren);
+	}
+	else{
+        if(ExisteTipoTren(tipoTrenes,codTipTren)){
+        	cout<<"El codigo de tipo de tren ya existe"<<endl;
+		}
+		else{
+			InsertarTipTren(tipoTrenes,codTipTren,nomTipTren);
+		}
+	}		
+}
 
 pNodoTipoTren DevolverTipoTren(pNodoTipoTren &R,int tipTren){
 	 if(R->valor==tipTren){
@@ -121,6 +137,7 @@ pNodoTipoTren DevolverTipoTren(pNodoTipoTren &R,int tipTren){
 	 	return DevolverTipoTren(R->Hder,tipTren);
 	 }
 }
+
 bool ExisteTren(NodoAVLTren *R,int Tren){
 	 if(R==NULL){
 	 	return false;
@@ -168,6 +185,23 @@ void CargarTrenes(pNodoTipoTren& tipoTrenes ){
     		
     	}//llave del while
     	archivo.close();
+	}
+}
+
+void RegistrarTrenes(pNodoTipoTren& tipoTrenes ){
+	int codTipTren; cout<<"Ingrese el codigo de tipo de tren: "; cin>>codTipTren; cout<<endl;
+	int codTren; cout<<"Ingrese el codigo de tren: "; cin>>codTren; cout<<endl;
+	string nomTren; cout<<"Ingrese el nombre del tren: "; cin>>nomTren; cout<<endl;
+	int numAsientos; cout<<"Ingrese la cantidad de asientos disponibles del tren: "; cin>>numAsientos; cout<<endl;
+	if(ExisteTipoTren(tipoTrenes,codTipTren)){
+    	pNodoTipoTren tipoTren = DevolverTipoTren(tipoTrenes,codTipTren);
+    	if(!ExisteTren(tipoTrenes->tren,codTren)){
+    		tipoTren->tren = insertarnodoAVLTren(tipoTren->tren,codTren,nomTren,numAsientos);
+		}else{
+			cout<<"El codigo de tren ya existe"<<endl;
+		}	
+	}else{
+		cout<<"El codigo de tipo de tren no existe"<<endl;
 	}
 }
 
