@@ -45,27 +45,27 @@ void PreordenR(NodoTipoTren *R){
     }
 }
 
-void InsertarNodoPais(pNodoTipoTren &tipoTrenes,int num, string nombre){
+void InsertarTipTren(pNodoTipoTren &tipoTrenes,int num, string nombre){
 	if(tipoTrenes==NULL){
 		tipoTrenes = new NodoTipoTren(num,nombre);
 	}
 	else{
 		if(num<=tipoTrenes->valor){
-			InsertarNodoPais(tipoTrenes->Hizq,num, nombre);
+			InsertarTipTren(tipoTrenes->Hizq,num, nombre);
 		}
 		else{
-			InsertarNodoPais(tipoTrenes->Hder,num, nombre);
+			InsertarTipTren(tipoTrenes->Hder,num, nombre);
 		}
 	}
 }
-void ExisteTipoTren(pNodoTipoTren& R, int tipTren){
+bool ExisteTipoTren(pNodoTipoTren& R, int tipTren){
 	if(R==NULL){
 	 	return false;
 	 }
 	 else if(R->valor==tipTren){
 	 	return true;
 	 }
-	 else if(Tren<=R->codTren){
+	 else if(tipTren<=R->valor){
 	 	return ExisteTipoTren(R->Hizq,tipTren);
 	 }
 	 else{
@@ -99,7 +99,7 @@ pNodoTipoTren CargarTipoTrenes(){
 		        	continue;
 				}
 				else{
-					InsertarNodoPais(tipoTrenes,codTipTren,nomTipTren);
+					InsertarTipTren(tipoTrenes,codTipTren,nomTipTren);
 				}
 			}
     		
@@ -129,10 +129,10 @@ bool ExisteTren(NodoAVLTren *R,int Tren){
 	 	return true;
 	 }
 	 else if(Tren<=R->codTren){
-	 	return ExisteCiudad(R->izquierda,Tren);
+	 	return ExisteTren(R->izquierda,Tren);
 	 }
 	 else{
-	 	return ExisteCiudad(R->derecha,Tren);
+	 	return ExisteTren(R->derecha,Tren);
 	 }
 }
 void CargarTrenes(pNodoTipoTren& tipoTrenes ){
@@ -155,7 +155,8 @@ void CargarTrenes(pNodoTipoTren& tipoTrenes ){
 		    if(ExisteTipoTren(tipoTrenes,codTipTren)){
 		    	pNodoTipoTren tipoTren = DevolverTipoTren(tipoTrenes,codTipTren);
 		    	if(!ExisteTren(tipoTrenes->tren,codTren)){
-		    		tipoTrenes->tren = insertarnodoAVLTren(tipoTrenes->tren,codTren,nomTren,numAsientos);
+		    		cout<<"INSERTANDO"<<endl;
+		    		tipoTren->tren = insertarnodoAVLTren(tipoTren->tren,codTren,nomTren,numAsientos);
 				}
 				else{
 					continue;
@@ -173,7 +174,7 @@ void CargarTrenes(pNodoTipoTren& tipoTrenes ){
 //Consultar los trenes de un tipo
 void preOrderTren(NodoAVLTren *raiz)  {  
     if(raiz != NULL)  {  
-        cout <<raiz->codCiudad<<"-"<<raiz->nombre<<endl;  
+        cout <<raiz->codTren<<"-"<<raiz->nombre<<", numero de asientos: "<<raiz->cantAsientos<<endl;  
         preOrderTren(raiz->izquierda);  
         preOrderTren(raiz->derecha);  
     }  
@@ -181,9 +182,10 @@ void preOrderTren(NodoAVLTren *raiz)  {
 
 void ConsultarTrenes(pNodoTipoTren& tipoTrenes){
 	int codTipTren; cout<<"Ingrese el codigo del tipo de tren al que pertenece el tren: "; cin>>codTipTren; cout<<endl;
-	NodoAVLTren *tipoTrenAux = DevolverTipoTren(tipoTrenes,codTipTren);
+	pNodoTipoTren tipTren = DevolverTipoTren(tipoTrenes,codTipTren);
+	NodoAVLTren *tipoTrenAux = tipTren->tren;
 	cout<<"Trenes de ese tipo: "<<endl;
-	preOrderTren(*tipoTrenAux);
+	preOrderTren(tipoTrenAux);
 	cout<<endl;
 }
 
