@@ -7,7 +7,7 @@
 #include<iostream>
 #include <stdlib.h>
 #include "NodoAVL.hpp"
-#include "Rojinegro.cpp"
+#include "Rojinegro.hpp"
 using namespace std;
 class NodoBinario {
    public:

@@ -172,7 +172,6 @@ void CargarTrenes(pNodoTipoTren& tipoTrenes ){
 		    if(ExisteTipoTren(tipoTrenes,codTipTren)){
 		    	pNodoTipoTren tipoTren = DevolverTipoTren(tipoTrenes,codTipTren);
 		    	if(!ExisteTren(tipoTrenes->tren,codTren)){
-		    		cout<<"INSERTANDO"<<endl;
 		    		tipoTren->tren = insertarnodoAVLTren(tipoTren->tren,codTren,nomTren,numAsientos);
 				}
 				else{

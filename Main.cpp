@@ -16,6 +16,8 @@ using namespace std;
 
 
 int main(){
+	//Variables de reportes
+	
 	//Cargar estructuras
 	pNodoBinario paises = CargarPaises(); //Paises
 	CargarCiudades(paises);//Ciudades
@@ -26,9 +28,9 @@ int main(){
 	
 	listaC rutas;
 	rutas.CargarRutas(paises,tipoTrenes); //Rutas
-	
+
 	//---------------------------------------------------------Menu Principal------------------------------------------------- 
-    /*int opcion; int codPais;string nomPais; int codCiudad;string nomCiudad;int codConexion;int codPais2;int codCiudad2;int codTiempo;int codUsuario;int registrar;bool bandera=true;
+    int opcion;int codUsuario;int registrar;bool bandera=true;
 	do { 
         system("cls");
          
@@ -94,34 +96,45 @@ int main(){
 									        cout << "3. Conexion" << endl; 
 									        cout << "4. Tipo de tren " << endl; 
 									        cout << "5. Ruta " << endl; 
-									        cout << "6. Reporte de actividad " << endl; 
-									        cout << "7. Salir" << endl; 
+									        cout << "6. Registrar Tren " << endl; 
+									        cout << "7. Reporte de actividad " << endl; 
+									        cout << "8. Salir" << endl; 
 									        cout << "\nIngrese una opcion: "; 
 									        cin >> opcion; 
 									        cout<<endl; 
 									         
 									        switch (opcion) { 
 									        	 
-									            case 1: 
+									            case 1:
+									            	InsertarPais(paises);
 													system("pause>nul"); 
 													break;  
-									            case 2: 
+									            case 2:
+									            	InsertarCiudad(paises);
 									            	system("pause>nul"); 
 									                break;    
-												case 3: 
+												case 3:
+													InsertarConexion(paises);
 									                system("pause>nul"); // Pausa 
 									                break;                 
-									    	 	case 4: 
+									    	 	case 4:
+									    	 		InsertarTipoTrenes(tipoTrenes);
 									                system("pause>nul"); // Pausa 
 									                break;    
-									            case 5: 
+									            case 5:
+									            	rutas.InsertarRutas(paises,tipoTrenes);
 									                system("pause>nul"); // Pausa 
 									                break;  
 												case 6:
+													RegistrarTrenes(tipoTrenes);
 									                system("pause>nul"); // Pausa 
-									                break;         
+									                break; 
+												case 7:
+													cout<<"Actividad de insertados: "<<endl;
+									                system("pause>nul"); // Pausa 
+									                break;        
 											} 
-										}while (opcion != 7); 
+										}while (opcion != 8); 
 									    system("pause>nul"); // Pausa 
 									    break;    					            
 								case 2: 
@@ -143,21 +156,24 @@ int main(){
 									        cout<<endl; 
 									         
 									        switch (opcion3) { 
-									            case 1: 
+									            case 1:
+									            	rutas.ModificarPrecio(paises);
 									                system("pause>nul"); // Pausa 
 									                break;									                 
 									            case 2: 
-									                // Lista de instrucciones de la opci?n 2                 
+									            	ModificarTiempo(paises);             
 									                system("pause>nul"); // Pausa 
 									                break; 
 												case 3: 
-									                // Lista de instrucciones de la opci?n 2                 
+													ModificarAsientos(tipoTrenes);              
 									                system("pause>nul"); // Pausa 
 									                break;                     
-									    	 	case 4: 
+									    	 	case 4:
+									    	 		ModificarTren(tipoTrenes);
 									                system("pause>nul"); // Pausa 
 									                break; 
-									            case 5: 
+									            case 5:
+									            	rutas.ModificarRutas(paises);
 									                system("pause>nul"); // Pausa 
 									                break;       
 												case 6: 
@@ -167,25 +183,32 @@ int main(){
 										}while (opcion3 != 7); 
 									    system("pause>nul"); // Pausa 
 									    break;                     
-					    	 	case 3:         
+					    	 	case 3:
+								 	ConsultarPaises(paises);     
 					                system("pause>nul"); // Pausa 
 					                break; 
-								case 4: 
+								case 4:
+									ConsultarCiudades(paises);
 					                system("pause>nul"); // Pausa 
 					                break; 
-								case 5:          
+								case 5:
+									ConsultarConexiones(paises);    
 					                system("pause>nul"); // Pausa 
 					                break; 
-								case 6: 
+								case 6:
+									ConsultarTrenes(tipoTrenes);
 					                system("pause>nul"); // Pausa 
 					                break; 
-								case 7: 
+								case 7:
+									rutas.ConsultarPrecio(tipoTrenes);
 					                system("pause>nul"); // Pausa 
 					                break;                     
-					    	 	case 8: 
+					    	 	case 8:
+					    	 		rutas.ConsultarRuta();
 					                system("pause>nul"); // Pausa 
 					                break; 
-								case 9: 
+								case 9:
+									CantAsientos(tipoTrenes);
 					                system("pause>nul"); // Pausa 
 					                break; 
 								case 10:                
@@ -296,6 +319,6 @@ int main(){
 	                system("pause>nul"); // Pausa 
 	                break;           
     	} 		 
-	}while (opcion != 3);*/
+	}while (opcion != 3);
     return 0;
 }

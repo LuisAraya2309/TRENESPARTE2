@@ -5,7 +5,7 @@
 #include<fstream>
 #include<iostream>
 #include <stdlib.h>
-#include "Rojinegro.cpp"
+#include "Rojinegro.hpp"
 #pragma once
 using namespace std;
 

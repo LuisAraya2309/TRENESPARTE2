@@ -11,7 +11,7 @@ class nodoCir {
 public: 
     nodoCir(int v, int trenc, int rutac, int paisc, int ciudadc, int pais2c, int ciudad2c, int precioc) { 
         codTipTren = v; 
-        codTren= trenc; 
+        codTren= trenc;
         codRutas = rutac; 
         codPais1 = paisc; 
         codCiudad1 = ciudadc; 
@@ -69,15 +69,14 @@ public:
     void InsertarRutas(pNodoBinario &paises,pNodoTipoTren &tipoTrenes);
     void ModificarRutas(pNodoBinario &paises);
     void ModificarPrecio(pNodoBinario &paises);
-    void ConsultarPrecio(pNodoBinario &paises);
+    void ConsultarPrecio(pNodoTipoTren &tipoTrenes);
     pnodoCir DevolverRuta(int codRuta);
 public:
     pnodoCir primero; 
  
 }; 
  
-listaC::~listaC() 
-{ 
+listaC::~listaC() { 
     pnodoCir aux; 
  
     while (primero) { 
@@ -94,8 +93,7 @@ int listaC::largoLista() {
     pnodoCir aux = primero; 
     if (ListaVacia()) 
         return cont; 
-    else 
-    { 
+    else { 
         while (aux->siguiente != primero) 
         { 
             cont++; 
@@ -106,8 +104,7 @@ int listaC::largoLista() {
     } 
 } 
  
-void listaC::InsertarInicio(int v, int trenc, int rutac, int paisc, int ciudadc, int pais2c, int ciudad2c,int precioc) 
-{ 
+void listaC::InsertarInicio(int v, int trenc, int rutac, int paisc, int ciudadc, int pais2c, int ciudad2c,int precioc) { 
      if (ListaVacia()){ 
     primero = new nodoCir(v,  trenc,  rutac,  paisc,  ciudadc,  pais2c,  ciudad2c, precioc, primero); 
     primero->siguiente=primero; 
@@ -125,17 +122,13 @@ void listaC::InsertarInicio(int v, int trenc, int rutac, int paisc, int ciudadc,
    } 
 } 
  
-void listaC::InsertarFinal(int v, int trenc, int rutac, int paisc, int ciudadc, int pais2c, int ciudad2c,int precioc) 
-{ 
-    if (ListaVacia()) 
-    { 
-    	cout<<"ListaVacia"<<endl; 
+void listaC::InsertarFinal(int v, int trenc, int rutac, int paisc, int ciudadc, int pais2c, int ciudad2c,int precioc) { 
+    if (ListaVacia()) { 
     	pnodoCir nuevo = new nodoCir(v,  trenc,  rutac,  paisc,  ciudadc,  pais2c,  ciudad2c, precioc); 
     	primero= nuevo; 
     	primero->siguiente=primero; 
     } 
-    else 
-    { 
+    else { 
         pnodoCir nuevo = new nodoCir( v,  trenc,  rutac,  paisc,  ciudadc,  pais2c,  ciudad2c, precioc); 
         pnodoCir aux = primero; 
         while (aux->siguiente != primero){ 
@@ -378,7 +371,8 @@ void listaC::InsertarRutas(pNodoBinario &paises,pNodoTipoTren &tipoTrenes){
 				pNodoTipoTren trenAux = DevolverTipoTren(tipoTrenes,codTipTren);
 				if(ExisteTren(trenAux->tren,codTren)){
 					if(!ExisteRuta(codRuta)){
-						InsertarFinal(codTipTren,codTren,codRuta,codPais,codCiudad,codPais2,codCiudad2,codPrecio);					
+						InsertarFinal(codTipTren,codTren,codRuta,codPais,codCiudad,codPais2,codCiudad2,codPrecio);
+						cout<<"Ruta insertada con exito"<<endl;				
 					}
 					else{
 						cout<<"El codigo de ruta ya existe"<<endl;
@@ -447,14 +441,28 @@ void listaC :: ModificarPrecio(pNodoBinario &paises){
 	}
 }
 
-void listaC :: ConsultarPrecio(pNodoBinario &paises){
-	int codRuta; cout<<"Ingrese el codigo de la ruta: "; cin>>codRuta; cout<<endl;
-	if(ExisteRuta(codRuta)){
-		pnodoCir cambio = DevolverRuta(codRuta);
-		cout<<"El precio de la ruta es de "	<<cambio->precio<<endl;	
+void listaC :: ConsultarPrecio(pNodoTipoTren &tipoTrenes){
+	int codTipTren; cout<<"Ingrese el codigo tipo de tren: "; cin>>codTipTren; cout<<endl;
+	int codTren; cout<<"Ingrese el codigo de tren: "; cin>>codTren; cout<<endl;
+	pnodoCir aux = primero;
+	cout<<"Los precios de las rutas del tren "<<codTren<<" son: " <<endl;
+	if(ExisteTipoTren(tipoTrenes,codTipTren)){
+		pNodoTipoTren trenAux = DevolverTipoTren(tipoTrenes,codTipTren);
+		if(ExisteTren(trenAux->tren,codTren)){
+			while(aux->siguiente != primero){
+				if((aux->codTipTren == codTipTren)&&(aux->codTren == codTren)){
+					cout<<"Ruta: "<<aux->codRutas<<" Precio: "<<aux->precio<<endl;
+					aux= aux->siguiente;
+				}else{
+					aux= aux->siguiente;
+				}
+			}if((aux->codTipTren == codTipTren)&&(aux->codTren == codTren)){
+					cout<<"Ruta: "<<aux->codRutas<<" Precio: "<<aux->precio<<endl;
+				}
+		}else{
+			cout<<"El codigo de tren no existe"<<endl;
+		}
+	}else{
+		cout<<"El codigo de tipo de tren no existe"<<endl;
 	}
-	else{
-		cout<<"El codigo de ruta no existe"<<endl;
-	}
-
 }
