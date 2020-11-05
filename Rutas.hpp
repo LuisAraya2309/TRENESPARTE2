@@ -1,14 +1,15 @@
 #include <fstream> 
 #include <iostream> 
 #include <stdlib.h> 
-#include<string> 
+#include<string>
+#include"NodoBinario.hpp"
+#include"NodoTipoTren.hpp" 
 #pragma once 
 using namespace std; 
  
 class nodoCir { 
 public: 
-    nodoCir(int v, int trenc, int rutac, int paisc, int ciudadc, int pais2c, int ciudad2c, int precioc) 
-    { 
+    nodoCir(int v, int trenc, int rutac, int paisc, int ciudadc, int pais2c, int ciudad2c, int precioc) { 
         codTipTren = v; 
         codTren= trenc; 
         codRutas = rutac; 
@@ -20,8 +21,7 @@ public:
         siguiente = NULL; 
     } 
  
-    nodoCir(int v, int trenc, int rutac, int paisc, int ciudadc, int pais2c, int ciudad2c,int precioc, nodoCir* signodo) 
-    { 
+    nodoCir(int v, int trenc, int rutac, int paisc, int ciudadc, int pais2c, int ciudad2c,int precioc, nodoCir* signodo) { 
         codTipTren = v; 
         codTren= trenc; 
         codRutas = rutac; 
@@ -46,12 +46,6 @@ public:
  
  
     friend class listaC; 
-    friend class listaDC; 
-    friend class listaDT; 
-    friend class nodoDobleT; 
-    friend class nodo;
-	friend class nodoUsuario;
-	friend class listaDCUsuario; 
 }; 
  
 typedef nodoCir* pnodoCir; 
@@ -70,6 +64,8 @@ public:
     void BorrarInicio(); 
     void borrarPosicion(int pos); 
     int largoLista(); 
+    void CargarRutas(pNodoBinario &paises,pNodoTipoTren &tipoTrenes);
+    bool ExisteRuta(int codRuta);
 public:
     pnodoCir primero; 
  
@@ -263,4 +259,78 @@ void listaC::Mostrar()
     } 
     cout << aux->codTipTren << "-" << aux->codTren << "-" << aux->codRutas << "-" << aux->codPais1 << "-"<< aux->codCiudad1 << "-"<< aux->codPais2 << "-"<< aux->codCiudad2 <<"-"<< aux->precio << "-> "; 
     cout << endl; 
-} 
+}
+
+//CargarRutas
+bool listaC::ExisteRuta(int codRuta){
+	pnodoCir aux = primero;
+	while(aux->siguiente != primero){
+		if(aux->codRutas==codRuta){
+			return true;
+		}
+		else{
+			aux = aux->siguiente; 
+		}
+	}
+	if(aux->codRutas==codRuta){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+void listaC::CargarRutas(pNodoBinario &paises,pNodoTipoTren &tipoTrenes){
+	ifstream archivo;
+    string texto;
+    archivo.open("Rutas.txt",ios::in);
+    if (archivo.fail()){
+        cout<<"No se pudo abrir el archivo";
+        exit(1);
+    }
+    else{
+    	while(!archivo.eof()){
+    		getline(archivo,texto);
+    		int posPC = texto.find(";"); int codTipTren = atoi(texto.substr(0, posPC).c_str()); 
+	        string Todo = texto.substr(posPC + 1, texto.length()); int posPC2 = Todo.find(";"); int codTren = atoi(Todo.substr(0, posPC2).c_str()); 
+	        string Todo2 = Todo.substr(posPC2 + 1, Todo.length()); int posPC3 = Todo2.find(";"); int codRuta = atoi((Todo2.substr(0, posPC3).c_str())); 
+	        string Todo3 = Todo2.substr(posPC3 + 1, Todo2.length()); int posPC4 = Todo3.find(";"); int codPais = atoi((Todo3.substr(0, posPC4).c_str())); 
+	        string Todo4 = Todo3.substr(posPC4 + 1, Todo3.length()); int posPC5 = Todo4.find(";"); int codCiudad = atoi((Todo4.substr(0, posPC5).c_str())); 
+	        string Todo5 = Todo4.substr(posPC5 + 1, Todo4.length()); int posPC6 = Todo5.find(";"); int codPais2 = atoi((Todo5.substr(0, posPC6).c_str())); 
+	        string Todo6 = Todo5.substr(posPC6 + 1, Todo5.length()); int posPC7 = Todo6.find(";"); int codCiudad2 = atoi((Todo6.substr(0, posPC7).c_str())); 
+	        string Todo7 = Todo6.substr(posPC7 + 1, Todo6.length()); int posPC8 = Todo7.find(";"); int codPrecio = atoi((Todo7.substr(0, posPC8).c_str())); 
+	        
+	        if(ExistePais(paises,codPais)&&(ExistePais(paises,codPais2))){
+	        	pNodoBinario paisAux = DevolverPais(paises,codPais);
+				pNodoBinario paisAux2 = DevolverPais(paises,codPais2);
+				if((ExisteCiudad(paisAux->ciudad,codCiudad))&&(ExisteCiudad(paisAux2->ciudad,codCiudad2))){
+					if(ExisteTipoTren(tipoTrenes,codTipTren)){
+						pNodoTipoTren trenAux = DevolverTipoTren(tipoTrenes,codTipTren);
+						if(ExisteTren(trenAux->tren,codTren)){
+							if(!ExisteRuta(codRuta)){
+								InsertarFinal(codTipTren,codTren,codRuta,codPais,codCiudad,codPais2,codCiudad2,codPrecio);
+							}
+							else{
+								continue;
+							}
+						}
+						else{
+							continue;
+						}
+					}
+					else{
+						continue;
+					}
+				}
+				else{
+					continue;
+				}
+			}
+			else{
+				continue;
+			}
+	        
+    	}
+    }
+}
+ 

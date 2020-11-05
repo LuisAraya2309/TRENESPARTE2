@@ -140,7 +140,7 @@ pNodoBinario DevolverPais(pNodoBinario &R,int pais){
 	 }
 }
 //Devuelve una ciudad
-NodoAVL* DevolverCiudad(NodoAVL* R,int codCiudad){
+NodoAVL* DevolverCiudad(NodoAVL* &R,int codCiudad){
 	 if(R->codCiudad==codCiudad){
 	 	return R;
 	 }
@@ -247,10 +247,12 @@ bool ExisteConexion(pNodoBinarioRN R,int codConexion){
 	 }
 }
 
+
+//Cargar Conexiones
 void CargarConexiones(pNodoBinario &paises){
 	ifstream archivo;
     string texto;
-    archivo.open("Ciudades.txt",ios::in);
+    archivo.open("Conexiones.txt",ios::in);
     if (archivo.fail()){
         cout<<"No se pudo abrir el archivo";
         exit(1);
@@ -264,16 +266,17 @@ void CargarConexiones(pNodoBinario &paises){
 			string ConexionPais = Conexion.substr(posPC3 + 1, Conexion.length());int posPC4 = ConexionPais.find(";");int codPais2 = atoi((ConexionPais.substr(0, posPC4).c_str()));
 			string ConexionCiudad = ConexionPais.substr(posPC4 + 1, ConexionPais.length());int posPC5 = ConexionCiudad.find(";");int codCiudad2 = atoi((ConexionCiudad.substr(0, posPC5).c_str()));
 			string Tiempo = ConexionCiudad.substr(posPC5 + 1, ConexionCiudad.length());int posPC6 = Tiempo.find(";");int codTiempo = atoi((Tiempo.substr(0, posPC6).c_str()));
-			if(ExistePais(paises,codPais)){
+			if((ExistePais(paises,codPais))&&(ExistePais(paises,codPais2))){
 				pNodoBinario paisAux = DevolverPais(paises,codPais);
-				if(ExisteCiudad(paisAux->ciudad,codCiudad)){
-					/*NodoAVL *ciudadAux = DevolverCiudad(paisAux->ciudad,codCiudad);
-					if(!ExisteConexion(*ciudadAux->conexiones->raiz,codConexionAux)){
-						
+				pNodoBinario paisAux2 = DevolverPais(paises,codPais2);
+				if((ExisteCiudad(paisAux->ciudad,codCiudad))&&(ExisteCiudad(paisAux2->ciudad,codCiudad2))){
+					NodoAVL *ciudadAux = DevolverCiudad(paisAux->ciudad,codCiudad);
+					if(!ExisteConexion(ciudadAux->conexiones.raiz,codConexionAux)){
+						ciudadAux->conexiones.insercionRN(codConexionAux,codPais2,codCiudad2,codTiempo);
 					}
 					else{
 						continue;
-					}*/
+					}
 				}
 				else{
 					continue;
@@ -285,6 +288,16 @@ void CargarConexiones(pNodoBinario &paises){
     	}
     	archivo.close();
     }
+}
+
+void ConsultarConexiones(pNodoBinario &paises){
+	int paisAux;
+	cout<<"Ingrese el codigo del pais: ";cin>>paisAux; cout<<endl;
+	pNodoBinario pais = DevolverPais(paises,paisAux);
+	int codCiudad;
+	cout<<"Ingrese el codigo de la ciudad para ver las conexiones: ";cin>>codCiudad;cout<<endl;
+	NodoAVL *ciudadAux = DevolverCiudad(pais->ciudad,codCiudad);
+	PreordenRN(ciudadAux->conexiones.raiz);
 }
 
 #endif	

@@ -10,6 +10,7 @@
 #include "NodoBinario.hpp"
 #include "NodoTipoTren.hpp"
 #include "NodoAVL.hpp"
+#include "Rutas.hpp"
 
 using namespace std;
 
@@ -18,10 +19,17 @@ int main(){
 	//Cargar estructuras
 	pNodoBinario paises = CargarPaises(); //Paises
 	CargarCiudades(paises);//Ciudades
+	CargarConexiones(paises);//Conexiones
 	
 	
 	pNodoTipoTren tipoTrenes = CargarTipoTrenes();//Tipos de Tren
 	CargarTrenes(tipoTrenes);//Trenes
+	
+	listaC rutas;
+	rutas.CargarRutas(paises,tipoTrenes);
+	rutas.Mostrar();
+	
+	
 	
 	
 	//---------------------------------------------------------Menu Principal------------------------------------------------- 

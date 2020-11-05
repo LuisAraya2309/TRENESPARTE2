@@ -35,12 +35,12 @@ public:
     void solucionarRojoRojo(pnodoRN nodoAux, int ladoH);
 };
 
-void PreordenRN(NodoRojiN *R){
+void PreordenRN(pNodoBinarioRN &R){
     
     if(R==NULL){
         return;
     }else{
-        cout<<R->valor<< ", "<< R->color<<" - ";
+        cout<<"Codigo de Conexion: "<<R->valor<<" Pais destino: "<<R->codPais<<" Ciudad Destino: "<<R->codCiudad<<" Tiempo: "<<R->tiempo<<endl;
         PreordenRN(R->Hizq);
         PreordenRN(R->Hder);
     }
