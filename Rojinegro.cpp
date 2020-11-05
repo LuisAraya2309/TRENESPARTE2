@@ -7,16 +7,19 @@ using namespace std;
 class NodoRojiN {
    public:
 
-    NodoRojiN(int num, NodoRojiN *der = NULL, NodoRojiN *izq = NULL, NodoRojiN *papa = NULL):
-        Hizq(izq), Hder(der), valor(num), padre(papa){}
+    NodoRojiN(int num,int pcodPais,int pcodCiudad,int ptiempo, NodoRojiN *der = NULL, NodoRojiN *izq = NULL, NodoRojiN *papa = NULL):
+        Hizq(izq), Hder(der), valor(num),codPais(pcodPais),codCiudad(pcodCiudad),tiempo(ptiempo), padre(papa){}
 
-
+	//Atributos
     int valor;
+    int codPais;
+    int codCiudad;
+    int tiempo;
     char color;
     NodoRojiN *padre;
     NodoRojiN *Hizq, *Hder;
 
-    friend class ARN;
+    friend class ArbolRN;
 };
 
 typedef NodoRojiN *pnodoRN;
@@ -28,7 +31,7 @@ public:
 
     ArbolRN():raiz(NULL){}
 
-    void insercion(int key);
+    void insercionRN(int key,int pcodPais,int pcodCiudad,int ptiempo);
     void solucionarRojoRojo(pnodoRN nodoAux, int ladoH);
 };
 
@@ -39,7 +42,7 @@ void PreordenRN(NodoRojiN *R){
     }else{
         cout<<R->valor<< ", "<< R->color<<" - ";
         PreordenRN(R->Hizq);
-        PreordenR(NR->Hder);
+        PreordenRN(R->Hder);
     }
 }
 
@@ -65,17 +68,17 @@ void PostordenRN(NodoRojiN *R){
     }
 }
 
-void ArbolRN::insercionRN(int key){
+void ArbolRN::insercionRN(int key,int pcodPais,int pcodCiudad,int ptiempo){
   int ladohijo;
   pnodoRN hijo;
   pnodoRN ayudante;
   int bandera;
   if(!raiz){ // el arbol esta vacio cargando como raiz
-    raiz = new NodoRojiN(key); 
+    raiz = new NodoRojiN(key,pcodPais,pcodCiudad,ptiempo); 
     raiz->color='n';
   }
   else{ // el arbol no esta vacio buscando su lugar
-    hijo = new NodoRojiN(key);
+    hijo = new NodoRojiN(key,pcodPais,pcodCiudad,ptiempo);
     hijo->color='r'; 
     ayudante=raiz;
     do{
@@ -93,7 +96,7 @@ void ArbolRN::insercionRN(int key){
   }
 }
 
-void ARN::solucionarRojoRojo(pnodoRN nodoAux, int ladoH){
+void ArbolRN::solucionarRojoRojo(pnodoRN nodoAux, int ladoH){
   int ladohijo;
   pnodoRN abuelo; // en nodoAux traemos al padre, en ladoH 1 si el hijo rojo es el Hizq 2 si no
   pnodoRN tio;

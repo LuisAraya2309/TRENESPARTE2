@@ -5,13 +5,15 @@
 #include<fstream>
 #include<iostream>
 #include <stdlib.h>
+#include "Rojinegro.cpp"
 #pragma once
 using namespace std;
 
 class NodoAVL{  
     public: 
     int codCiudad;
-	string nombre;  
+	string nombre;
+	ArbolRN conexiones;
     NodoAVL *izquierda;  
     NodoAVL *derecha;  
     int FB;  

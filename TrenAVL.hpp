@@ -56,9 +56,9 @@ NodoAVLTren *RotacionDerecha(NodoAVLTren *y)  {
     raizN->derecha = y;  
     y->izquierda = T2;  
   
-    y->FB = numeroMayor(FB(y->izquierda), 
+    y->FB = numeroMayorTren(FB(y->izquierda), 
     FB(y->derecha)) + 1;  
-    raizN->FB = numeroMayor(FB(raizN->izquierda), 
+    raizN->FB = numeroMayorTren(FB(raizN->izquierda), 
     FB(raizN->derecha)) + 1;
     
     return raizN;  
@@ -71,9 +71,9 @@ NodoAVLTren *RotacionIzquierda(NodoAVLTren *x) {
     raizN->izquierda = x;  
     x->derecha = T2;  
    
-    x->FB = numeroMayor(FB(x->izquierda),     
+    x->FB = numeroMayorTren(FB(x->izquierda),     
     FB(x->derecha)) + 1;  
-    raizN->FB = numeroMayor(FB(raizN->izquierda),  
+    raizN->FB = numeroMayorTren(FB(raizN->izquierda),  
     FB(raizN->derecha)) + 1;  
   
     return raizN;  

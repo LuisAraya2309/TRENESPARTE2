@@ -7,6 +7,7 @@
 #include<iostream>
 #include <stdlib.h>
 #include "NodoAVL.hpp"
+#include "Rojinegro.cpp"
 using namespace std;
 class NodoBinario {
    public:
@@ -138,6 +139,18 @@ pNodoBinario DevolverPais(pNodoBinario &R,int pais){
 	 	return DevolverPais(R->Hder,pais);
 	 }
 }
+//Devuelve una ciudad
+NodoAVL* DevolverCiudad(NodoAVL* R,int codCiudad){
+	 if(R->codCiudad==codCiudad){
+	 	return R;
+	 }
+	 else if(codCiudad<=R->codCiudad){
+	 	return DevolverCiudad(R->izquierda,codCiudad);
+	 }
+	 else{
+	 	return DevolverCiudad(R->derecha,codCiudad);
+	 }
+}
 //Cargar Ciudades
 void CargarCiudades(pNodoBinario& paises ){
 	ifstream archivo;
@@ -215,6 +228,63 @@ void ConsultarCiudades(pNodoBinario &paises){
 	pNodoBinario pais = DevolverPais(paises,paisAux);
 	cout<<"Ciudades de ese pais: "<<endl;
 	preOrder(pais->ciudad);
+}
+
+//CargarConexiones
+
+bool ExisteConexion(pNodoBinarioRN R,int codConexion){
+	 if(R == NULL){
+	 	return false;
+	 }
+	 else if(R->valor==codConexion){
+	 	return true;
+	 }
+	 else if(codConexion<=R->valor){
+	 	return ExisteConexion(R->Hizq,codConexion);
+	 }
+	 else{
+	 	return ExisteConexion(R->Hder,codConexion);
+	 }
+}
+
+void CargarConexiones(pNodoBinario &paises){
+	ifstream archivo;
+    string texto;
+    archivo.open("Ciudades.txt",ios::in);
+    if (archivo.fail()){
+        cout<<"No se pudo abrir el archivo";
+        exit(1);
+    }
+    else{
+    	while(!archivo.eof()){
+    		getline(archivo,texto);
+    		int posPC = texto.find(";");int codPais = atoi(texto.substr(0, posPC).c_str());                                                         
+			string ConexionTotal = texto.substr(posPC + 1, texto.length());int posPC2 = ConexionTotal.find(";");int codCiudad = atoi((ConexionTotal.substr(0, posPC2).c_str()));                            
+			string Conexion = ConexionTotal.substr(posPC2 + 1, ConexionTotal.length());int posPC3 = Conexion.find(";");int codConexionAux = atoi((Conexion.substr(0, posPC3).c_str()));
+			string ConexionPais = Conexion.substr(posPC3 + 1, Conexion.length());int posPC4 = ConexionPais.find(";");int codPais2 = atoi((ConexionPais.substr(0, posPC4).c_str()));
+			string ConexionCiudad = ConexionPais.substr(posPC4 + 1, ConexionPais.length());int posPC5 = ConexionCiudad.find(";");int codCiudad2 = atoi((ConexionCiudad.substr(0, posPC5).c_str()));
+			string Tiempo = ConexionCiudad.substr(posPC5 + 1, ConexionCiudad.length());int posPC6 = Tiempo.find(";");int codTiempo = atoi((Tiempo.substr(0, posPC6).c_str()));
+			if(ExistePais(paises,codPais)){
+				pNodoBinario paisAux = DevolverPais(paises,codPais);
+				if(ExisteCiudad(paisAux->ciudad,codCiudad)){
+					NodoAVL *ciudadAux = DevolverCiudad(paisAux->ciudad,codCiudad);
+					if(!ExisteConexion(*ciudadAux->conexiones->raiz,codConexionAux)){
+						
+					}
+					else{
+						continue;
+					}
+				}
+				else{
+					continue;
+				}
+			}
+			else{
+				continue;
+			}
+    	}
+    	archivo.close();
+    }
 }
 
 #endif	

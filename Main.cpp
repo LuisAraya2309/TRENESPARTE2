@@ -19,9 +19,9 @@ int main(){
 	pNodoBinario paises = CargarPaises(); //Paises
 	CargarCiudades(paises);//Ciudades
 	
+	
 	pNodoTipoTren tipoTrenes = CargarTipoTrenes();//Tipos de Tren
-	CargarTrenes(tipoTrenes);
-	ConsultarTrenes(tipoTrenes);
+	CargarTrenes(tipoTrenes);//Trenes
 	
 	
 	
