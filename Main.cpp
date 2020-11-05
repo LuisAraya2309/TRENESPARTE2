@@ -13,11 +13,16 @@
 
 using namespace std;
 
+
 int main(){
 	//Cargar estructuras
 	pNodoBinario paises = CargarPaises(); //Paises
+	CargarCiudades(paises);//Ciudades
+	
 	pNodoTipoTren tipoTrenes = CargarTipoTrenes();//Tipos de Tren
-	CargarCiudades(paises);
+	CargarTrenes(tipoTrenes);
+	ConsultarTrenes(tipoTrenes);
+	
 	
 	
 	//---------------------------------------------------------Menu Principal------------------------------------------------- 

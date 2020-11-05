@@ -32,9 +32,9 @@ int balanceo(NodoAVLTren *N){
 }  
   
 //Obtiene el numero mayor para identificar a la hora de ingresar en el arbol
-int numeroMayor(int a, int b); 
+int numeroMayorTren(int a, int b); 
 
-int numeroMayor(int a, int b){  
+int numeroMayorTren(int a, int b){  
     return (a > b)? a : b;  
 }  
  
@@ -86,13 +86,13 @@ NodoAVLTren* insertarnodoAVLTren(NodoAVLTren* nodo, int codTren,string nombre, i
     	return(newNodoAVLTren(codTren,nombre,cantAsientos));  
 	}//else
 	if (codTren < nodo->codTren){
-    	nodo->izquierda = insertarnodoAVLTren(nodo->izquierda, codTren ,nombre);  
-	}else if (codTren > nodo->codCiudad){
-    	nodo->derecha = insertarnodoAVLTren(nodo->derecha, codTren,nombre);  
+    	nodo->izquierda = insertarnodoAVLTren(nodo->izquierda, codTren ,nombre,cantAsientos);  
+	}else if (codTren > nodo->codTren){
+    	nodo->derecha = insertarnodoAVLTren(nodo->derecha, codTren,nombre,cantAsientos);  
 	}else{
 		return nodo;  
 	}   
-    nodo->FB = 1 + numeroMayor(FB(nodo->izquierda),  
+    nodo->FB = 1 + numeroMayorTren(FB(nodo->izquierda),  
     FB(nodo->derecha));  
   
     int balance = balanceo(nodo);  //Esta variable sera la del balance
@@ -121,18 +121,5 @@ NodoAVLTren* insertarnodoAVLTren(NodoAVLTren* nodo, int codTren,string nombre, i
 } 
 
 
-bool ExisteTren(NodoAVLTren *R,int Tren){
-	 if(R==NULL){
-	 	return false;
-	 }
-	 else if(R->codTren==Tren){
-	 	return true;
-	 }
-	 else if(Tren<=R->codTren){
-	 	return ExisteCiudad(R->izquierda,Tren);
-	 }
-	 else{
-	 	return ExisteCiudad(R->derecha,Tren);
-	 }
-}
+
 

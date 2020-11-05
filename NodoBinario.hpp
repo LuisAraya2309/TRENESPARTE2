@@ -176,7 +176,7 @@ void CargarCiudades(pNodoBinario& paises ){
 
 
 void InsertarCiudad(pNodoBinario& paises ){
-    int codPais; cout<<"Ingrese le codigo del pais al que pertenece la ciudad: "; cin>>codPais; cout<<endl;
+    int codPais; cout<<"Ingrese el codigo del pais al que pertenece la ciudad: "; cin>>codPais; cout<<endl;
     if(ExistePais(paises,codPais)){
     	pNodoBinario pais = DevolverPais(paises,codPais);
         int codCiudad; cout<<"Ingrese el codigo de la ciudad: "; cin>>codCiudad; cout<<endl;
