@@ -12,7 +12,7 @@
 #include "NodoAVL.hpp"
 #include "Rutas.hpp"
 #include "Admin.hpp"
-
+#include "Usuarios.hpp"
 using namespace std;
 
 
@@ -28,12 +28,15 @@ int main(){
 	CargarTrenes(tipoTrenes);//Trenes
 	
 	
-	listaC rutas;
-	rutas.CargarRutas(paises,tipoTrenes); //Rutas
+	//listaC rutas;
+	//rutas.CargarRutas(paises,tipoTrenes); //Rutas
 	
 	
-	BTree admins(5);
+	BTree admins(3);
 	CargarAdmin(admins);//Carga admin
+	
+	ArbolUsuario usuarios(5);
+	CargarUsuarios(usuarios);//Carga usuarios
 	/*
 	//---------------------------------------------------------Menu Principal------------------------------------------------- 
     int opcion;int codUsuario;int registrar;bool bandera=true;

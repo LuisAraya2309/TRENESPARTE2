@@ -64,7 +64,7 @@ void TreeNode::traverse() {
   for (i = 0; i < n; i++) {
     if (leaf == false)
       C[i]->traverse();
-    cout <<keys[i]<<"-"<<nombres[i]<<"->";
+    cout <<keys[i]<<"-"<<nombres[i]<<endl;
   }
 
   if (leaf == false)
@@ -199,12 +199,17 @@ void CargarAdmin(BTree admin){
             int codAdmin=atoi(texto.substr(0, posC).c_str());
             string nombreAdmin= texto.substr(posC+1, texto.length());
             if(!admin.ExisteAdmin(codAdmin)){
+            	cout<<"Cod Admin: "<<codAdmin<<endl;
+            	cout<<"Nombre Admin: "<<nombreAdmin<<endl;
+            	cout<<endl;
             	admin.insert(codAdmin,nombreAdmin);
 			}
 			else{
 				continue;
 			}
     	}
+    	cout<<"Admins: "<<endl;
+    	admin.traverse();
     	archivo.close();
     }
 }
