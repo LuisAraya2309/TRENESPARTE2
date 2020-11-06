@@ -11,6 +11,7 @@
 #include "NodoTipoTren.hpp"
 #include "NodoAVL.hpp"
 #include "Rutas.hpp"
+#include "Admin.hpp"
 
 using namespace std;
 
@@ -26,9 +27,14 @@ int main(){
 	pNodoTipoTren tipoTrenes = CargarTipoTrenes();//Tipos de Tren
 	CargarTrenes(tipoTrenes);//Trenes
 	
+	
 	listaC rutas;
 	rutas.CargarRutas(paises,tipoTrenes); //Rutas
-
+	
+	
+	BTree admins(5);
+	CargarAdmin(admins);//Carga admin
+	/*
 	//---------------------------------------------------------Menu Principal------------------------------------------------- 
     int opcion;int codUsuario;int registrar;bool bandera=true;
 	do { 
@@ -320,5 +326,6 @@ int main(){
 	                break;           
     	} 		 
 	}while (opcion != 3);
+	*/
     return 0;
 }

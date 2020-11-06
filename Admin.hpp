@@ -17,6 +17,7 @@ class TreeNode {
   void traverse();
 
   TreeNode *search(int k);
+  bool ExisteAdmin(int k);
 
   friend class BTree;
 };
@@ -39,8 +40,12 @@ class BTree {
   TreeNode *search(int k) {
     return (root == NULL) ? NULL : root->search(k);
   }
+  bool ExisteAdmin(int k){
+  	return (root==NULL) ? false : root->ExisteAdmin(k);
+  }
 
   void insert(int k,string pnombre);
+  
 };
 
 TreeNode::TreeNode(int t1, bool leaf1) {
@@ -162,13 +167,46 @@ void TreeNode::splitChild(int i, TreeNode *y) {
   n = n + 1;
 }
 
-int main() {
-  BTree t(5);
-  
-  t.insert(8,"Luis");
-  t.insert(9,"Sebas");
-  t.insert(10,"Gabriel");
-  t.insert(11,"Pau");
-  
-  t.traverse();
+bool TreeNode::ExisteAdmin(int k) {
+  int i = 0;
+  while (i < n && k > keys[i])
+    i++;
+
+  if (keys[i] == k){
+  	return true;
+  }
+    
+
+  if (leaf == true){
+  	return false;
+  }
+  return C[i]->ExisteAdmin(k);
 }
+
+
+void CargarAdmin(BTree admin){
+	ifstream archivo;
+    string texto;
+    archivo.open("Administradores.txt",ios::in);
+    if (archivo.fail()){
+        cout<<"No se pudo abrir el archivo";
+        exit(1);
+    }
+    else{
+    	while(!archivo.eof()){
+    		getline(archivo,texto);
+    		int posC= texto.find(";");
+            int codAdmin=atoi(texto.substr(0, posC).c_str());
+            string nombreAdmin= texto.substr(posC+1, texto.length());
+            if(!admin.ExisteAdmin(codAdmin)){
+            	admin.insert(codAdmin,nombreAdmin);
+			}
+			else{
+				continue;
+			}
+    	}
+    	archivo.close();
+    }
+}
+
+
