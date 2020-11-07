@@ -7,14 +7,15 @@ using namespace std;
 class NodoRojiN {
    public:
 
-    NodoRojiN(int num,int pcodPais,int pcodCiudad,int ptiempo, NodoRojiN *der = NULL, NodoRojiN *izq = NULL, NodoRojiN *papa = NULL):
-        Hizq(izq), Hder(der), valor(num),codPais(pcodPais),codCiudad(pcodCiudad),tiempo(ptiempo), padre(papa){}
+    NodoRojiN(int num,int pcodPais,int pcodCiudad,int ptiempo,int pPrecio, NodoRojiN *der = NULL, NodoRojiN *izq = NULL, NodoRojiN *papa = NULL):
+        Hizq(izq), Hder(der), valor(num),codPais(pcodPais),codCiudad(pcodCiudad),tiempo(ptiempo), precio(pPrecio), padre(papa){}
 
 	//Atributos
     int valor;
     int codPais;
     int codCiudad;
     int tiempo;
+    int precio;
     char color;
     NodoRojiN *padre;
     NodoRojiN *Hizq, *Hder;
@@ -31,7 +32,7 @@ public:
 
     ArbolRN():raiz(NULL){}
 
-    void insercionRN(int key,int pcodPais,int pcodCiudad,int ptiempo);
+    void insercionRN(int key,int pcodPais,int pcodCiudad,int ptiempo, int precio);
     void solucionarRojoRojo(pnodoRN nodoAux, int ladoH);
 };
 
@@ -40,7 +41,7 @@ void PreordenRN(pNodoBinarioRN &R){
     if(R==NULL){
         return;
     }else{
-        cout<<"Codigo de Conexion: "<<R->valor<<" Pais destino: "<<R->codPais<<" Ciudad Destino: "<<R->codCiudad<<" Tiempo: "<<R->tiempo<<endl;
+        cout<<"Codigo de Conexion: "<<R->valor<<" Pais destino: "<<R->codPais<<" Ciudad Destino: "<<R->codCiudad<<" Tiempo: "<<R->tiempo<<" Precio: "<<R->precio<<endl;
         PreordenRN(R->Hizq);
         PreordenRN(R->Hder);
     }
@@ -68,17 +69,17 @@ void PostordenRN(NodoRojiN *R){
     }
 }
 
-void ArbolRN::insercionRN(int key,int pcodPais,int pcodCiudad,int ptiempo){
+void ArbolRN::insercionRN(int key,int pcodPais,int pcodCiudad,int ptiempo, int precio){
   int ladohijo;
   pnodoRN hijo;
   pnodoRN ayudante;
   int bandera;
   if(!raiz){ // el arbol esta vacio cargando como raiz
-    raiz = new NodoRojiN(key,pcodPais,pcodCiudad,ptiempo); 
+    raiz = new NodoRojiN(key,pcodPais,pcodCiudad,ptiempo, precio); 
     raiz->color='n';
   }
   else{ // el arbol no esta vacio buscando su lugar
-    hijo = new NodoRojiN(key,pcodPais,pcodCiudad,ptiempo);
+    hijo = new NodoRojiN(key,pcodPais,pcodCiudad,ptiempo, precio);
     hijo->color='r'; 
     ayudante=raiz;
     do{

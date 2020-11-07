@@ -445,10 +445,10 @@ void listaC :: ConsultarPrecio(pNodoTipoTren &tipoTrenes){
 	int codTipTren; cout<<"Ingrese el codigo tipo de tren: "; cin>>codTipTren; cout<<endl;
 	int codTren; cout<<"Ingrese el codigo de tren: "; cin>>codTren; cout<<endl;
 	pnodoCir aux = primero;
-	cout<<"Los precios de las rutas del tren "<<codTren<<" son: " <<endl;
 	if(ExisteTipoTren(tipoTrenes,codTipTren)){
 		pNodoTipoTren trenAux = DevolverTipoTren(tipoTrenes,codTipTren);
 		if(ExisteTren(trenAux->tren,codTren)){
+			cout<<"Los precios de las rutas del tren "<<codTren<<" son: " <<endl;
 			while(aux->siguiente != primero){
 				if((aux->codTipTren == codTipTren)&&(aux->codTren == codTren)){
 					cout<<"Ruta: "<<aux->codRutas<<" Precio: "<<aux->precio<<endl;

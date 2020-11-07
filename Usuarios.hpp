@@ -1,4 +1,14 @@
+#include <stdlib.h>
 #include <iostream>
+#include<stdlib.h>
+#include<string.h>
+#include<fstream>
+#include<cstdlib>
+#include<string>
+#include<sstream>
+#include <math.h>
+#include "NodoBinario.hpp"
+#pragma once
 using namespace std;
 
 class NodoUsuario {	
@@ -17,9 +27,12 @@ class NodoUsuario {
    public:
   NodoUsuario(int temp, bool bool_leaf);
 
-  void insertNonFull(int k,string pnombre,int ppais,int pciudad,int pestado);
-  void splitChild(int i, NodoUsuario *y);
-  void traverse();
+  	void insertNonFull(int k,string pnombre,int ppais,int pciudad,int pestado);
+  	void splitChild(int i, NodoUsuario *y);
+  	void traverse();
+	bool ModEstMigratorio(int k, int estMigratorio);
+	bool DevolverMigra(int k);
+  
 
   NodoUsuario *search(int k);
   bool ExisteUsuario(int k);
@@ -49,8 +62,14 @@ class ArbolUsuario {
   	return (root==NULL) ? false : root->ExisteUsuario(k);
   }
 
-  void insert(int k,string pnombre,int ppais,int pciudad,int pestado);
-  
+  	void insert(int k,string pnombre,int ppais,int pciudad,int pestado);
+  	
+	bool ModEstMigratorio(int k, int estMigratorio){
+		return (root== NULL) ? false : root->ModEstMigratorio(k, estMigratorio);
+	}
+	bool DevolverMigra(int k){
+		return (root == NULL) ? false : root->DevolverMigra(k);
+	}
 };
 
 NodoUsuario::NodoUsuario(int t1, bool leaf1) {
@@ -209,7 +228,8 @@ bool NodoUsuario::ExisteUsuario(int k) {
 }
 
 
-void CargarUsuarios(ArbolUsuario usuarios){
+
+void CargarUsuarios(ArbolUsuario &usuarios, pNodoBinario paises){
 	ifstream archivo;
     string texto;
     archivo.open("Usuarios.txt",ios::in);
@@ -225,20 +245,109 @@ void CargarUsuarios(ArbolUsuario usuarios){
 	        string Todo2 = Todo.substr(posPC2 + 1, Todo.length());int posPC3 = Todo2.find(";");int codPasaporte = atoi((Todo2.substr(0, posPC3).c_str()));
 	        string Todo3 = Todo2.substr(posPC3 + 1, Todo2.length());int posPC4 = Todo3.find(";");string nombre = (Todo3.substr(0, posPC4));
 	        string Todo4 = Todo3.substr(posPC4 + 1, Todo3.length()); int posPC5 = Todo4.find(";");int estMigracion = atoi((Todo4.substr(0, posPC5).c_str()));
-	        if(!usuarios.ExisteUsuario(codPasaporte)){
-	        	cout<<"Insertando Usuario... "<<endl;
-	        	cout<<"Usuario: "<<nombre<<endl;
-	        	cout<<"Estado Migratorio: "<<estMigracion<<endl;
-	        	usuarios.insert(codPasaporte,nombre,codPais,codCiudad,estMigracion);
-			}
-			else{
+			if(ExistePais(paises,codPais)){
+				pNodoBinario paisAux = DevolverPais(paises, codPais);
+				if(ExisteCiudad(paisAux->ciudad,codCiudad)){
+					if((estMigracion == 0)||(estMigracion == 1)){
+						if(!usuarios.ExisteUsuario(codPasaporte)){
+				    		usuarios.insert(codPasaporte,nombre,codPais,codCiudad,estMigracion);
+						}
+						else{
+							//cout<<"El pasaporte que ingreso ya existe"<<endl;
+							continue;
+						}
+					}else{
+						//cout<<"El estado migratorio debe de ser 1 o 0"<<endl;
+						continue;
+					}
+				}else{
+					//cout<<"El codigo de ciudad no existe"<<endl;
+					continue;
+				}
+			}else{
+				//cout<<"El codigo del pais no existe"<<endl;
 				continue;
 			}
     	}
     	archivo.close();
-    	cout<<"Arbol Usuarios: "<<endl;
-    	usuarios.traverse();
     }
 }
 
+void RegistrarUsuario(ArbolUsuario &usuarios, pNodoBinario &paises){
+	int codPais; cout<<"Ingrese el codigo de su pais de procedencia: "; cin>>codPais; cout<<endl;
+	int codCiudad; cout<<"Ingrese el codigo de su ciudad de procedencia: "; cin>>codCiudad; cout<<endl;
+	int codPasaporte; cout<<"Ingrese su pasaporte: "; cin>>codPasaporte; cout<<endl;
+	string nombre; cout<<"Ingrese su nombre: "; cin>>nombre; cout<<endl;
+	int estMigracion; cout<<"Ingrese su estado migratorio actual : "; cin>>estMigracion; cout<<endl;
+	if(ExistePais(paises,codPais)){
+		pNodoBinario paisAux = DevolverPais(paises, codPais);
+		if(ExisteCiudad(paisAux->ciudad,codCiudad)){
+			if((estMigracion == 0)||(estMigracion == 1)){
+				if(!usuarios.ExisteUsuario(codPasaporte)){
+			    	usuarios.insert(codPasaporte,nombre,codPais,codCiudad,estMigracion);
+			    	cout<<"Registrado con exito"<<endl;
+				}
+				else{
+					cout<<"El pasaporte que ingreso ya existe"<<endl;
+				}
+			}else{
+				cout<<"El estado migratorio debe de ser 1 o 0"<<endl;
+			}
+		}else{
+			cout<<"El codigo de ciudad no existe"<<endl;
+		}
+	}else{
+		cout<<"El codigo del pais no existe"<<endl;
+	}
+}
 
+bool NodoUsuario::ModEstMigratorio(int k, int estMigratorio) {
+  int i = 0;
+  while (i < n && k > keys[i])
+    i++;
+
+  if (keys[i] == k){
+  	estado[i] = estMigratorio;
+  	return true;
+  }
+  if (leaf == true){
+  	return false;
+  }
+  return C[i]->search(k);
+}
+
+bool NodoUsuario::DevolverMigra(int k) {
+  int i = 0;
+  while (i < n && k > keys[i])
+    i++;
+
+  if (keys[i] == k){
+  	if(estado[i]== 0){
+  		return false;
+	  }else{
+	  	return true;
+	  } 
+  	
+  }
+  if (leaf == true){
+  	return false;
+  }
+  return C[i]->search(k);
+}
+
+void ModificarEstMigracion(ArbolUsuario &usuarios){
+	int codPasaporte; cout<<"Ingrese su pasaporte: "; cin>>codPasaporte; cout<<endl;
+	int estMigracion; cout<<"Ingrese el nuevo estado migratorio: "; cin>>estMigracion; cout<<endl;
+	if(usuarios.ExisteUsuario(codPasaporte)){
+		if((estMigracion == 0)||(estMigracion == 1)){
+			if(usuarios.ModEstMigratorio(codPasaporte,estMigracion)){
+				cout<<"Modificado con exito"<<endl;
+			}
+		}else{
+			cout<<"El estado migratorio solo puede ser 1 o 0"<<endl;
+		}
+	}
+	else{
+		cout<<"El pasaporte que ingreso no existe"<<endl;
+	}
+}

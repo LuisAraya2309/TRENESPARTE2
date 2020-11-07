@@ -7,6 +7,9 @@
 #include<iostream>
 #include <stdlib.h>
 #include "TrenAVL.hpp"
+#include "Boleteria.hpp"
+#include "Usuarios.hpp"
+
 
 using namespace std;
 class NodoTipoTren {
@@ -19,6 +22,7 @@ class NodoTipoTren {
 		Hizq = NULL;
 		siguiente = NULL;
 		anterior = NULL;
+		ventanilla = listaBoleteria();
 	}
 	
 	//Atributos
@@ -26,7 +30,7 @@ class NodoTipoTren {
     string nombre;
     NodoAVLTren *tren;
     NodoTipoTren *Hizq, *Hder, *siguiente, *anterior;
-
+	listaBoleteria ventanilla;
     friend class Pila;
     friend class Binario;
 };
@@ -269,6 +273,75 @@ void ModificarTren(pNodoTipoTren& tipoTrenes ){
 		}	
 	}else{
 		cout<<"El codigo de tipo de tren no existe"<<endl;
+	}
+}
+
+
+void VentaTiquetes(listaBoleteria &Pasajeros, ArbolUsuario &usuarios, pNodoBinario &paises, pNodoTipoTren &tipoTrenes){
+	pnodoBoleteria aux = Pasajeros.primero;
+	bool eleccion = true;
+	int eleccion2;
+	while(eleccion){
+		if(!usuarios.ExisteUsuario(aux->identificacion)){
+			cout<<"No se ha encontrado su identificacion, se procedera a registrarlo"<<endl;
+			RegistrarUsuario(usuarios,paises);
+			int iDPasajeros; cout<<"Ingrese su identificacion: "; cin>>iDPasajeros; cout<<endl;
+			int tipoTren; cout<<"Ingrese el tipo de tren al que desea abordar: "; cin>>tipoTren; cout<<endl;
+			Pasajeros.InsertarFinal(iDPasajeros, tipoTren);
+			Pasajeros.BorrarInicio();
+			cout<<"Si desea seguir administrando la venta de tiquetes digite 1 de lo contrario digite 2: "; cin>>eleccion2; cout<< endl;
+			if(eleccion2==2){
+				break;
+			}
+		}else if(!usuarios.DevolverMigra(aux->identificacion)){
+			cout<<"Tiene un problema de migracion se procedera a solucionarlo"<<endl;
+			usuarios.ModEstMigratorio(aux->identificacion, 1);
+			int iDPasajeros; cout<<"Ingrese su identificacion: "; cin>>iDPasajeros; cout<<endl;
+			int tipoTren; cout<<"Ingrese el tipo de tren al que desea abordar: "; cin>>tipoTren; cout<<endl;
+			Pasajeros.InsertarFinal(iDPasajeros, tipoTren);
+			Pasajeros.BorrarInicio();
+			cout<<"Si desea seguir administrando la venta de tiquetes digite 1 de lo contrario digite 2: "; cin>>eleccion2; cout<< endl;
+			if(eleccion2==2){
+				break;
+			}
+		}else{
+			if(ExisteTipoTren(tipoTrenes,aux->codTren)){
+				cout<<"Se ha ingresado a la cola de reservacion"<<endl;
+				pNodoTipoTren agregar = DevolverTipoTren(tipoTrenes, aux->codTren);
+				agregar->ventanilla.InsertarFinal(aux->identificacion,aux->codTren);
+				Pasajeros.BorrarInicio();
+				cout<<"Si desea seguir administrando la venta de tiquetes digite 1 de lo contrario digite 2: "; cin>>eleccion2; cout<< endl;
+				if(eleccion2==2){
+					break;
+				}
+			}else{
+				cout<<"El tren que usted ingreso no existe."<<endl;
+				bool bandera = true;
+				while(bandera){
+					int escoger;
+					cout<<"Si desea ingresar otro tipo de tren digite 1 de lo contrario digite 2: "; cin>>escoger; cout<< endl;
+					if(escoger==1){
+						int tipoTren; cout<<"Ingrese el tipo de tren al que desea abordar: "; cin>>tipoTren; cout<<endl;
+						if(ExisteTipoTren(tipoTrenes,tipoTren)){
+							aux->codTren = tipoTren;
+							pNodoTipoTren agregar = DevolverTipoTren(tipoTrenes, aux->codTren);
+							agregar->ventanilla.InsertarFinal(aux->identificacion,aux->codTren);
+							Pasajeros.BorrarInicio();
+							bandera = false;
+							cout<<"El codigo ha sido modificado"<<endl;
+							cout<<"Si desea seguir administrando la venta de tiquetes digite 1 de lo contrario digite 2: "; cin>>eleccion2; cout<< endl;
+							if(eleccion2==2){
+								break;
+							}
+						}else{
+							cout<<"El codigo ingresado no existe"<<endl;
+						}	
+					}else{
+						break;
+					}
+				}
+			}			
+		}
 	}
 }
 

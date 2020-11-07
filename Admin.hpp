@@ -1,4 +1,12 @@
+#include <stdlib.h>
 #include <iostream>
+#include<stdlib.h>
+#include<string.h>
+#include<fstream>
+#include<cstdlib>
+#include<string>
+#include<sstream>
+#include <math.h>
 using namespace std;
 
 class TreeNode {
@@ -168,23 +176,21 @@ void TreeNode::splitChild(int i, TreeNode *y) {
 }
 
 bool TreeNode::ExisteAdmin(int k) {
-  int i = 0;
-  while (i < n && k > keys[i])
-    i++;
-
-  if (keys[i] == k){
-  	return true;
-  }
-    
-
-  if (leaf == true){
-  	return false;
-  }
-  return C[i]->ExisteAdmin(k);
+	int i = 0;
+  	while (i < n && k > keys[i])
+    	i++;
+  	if (keys[i] == k){
+  		return true;
+  	}
+  
+  	if (leaf == true){
+  		return false;
+  	}
+  	return C[i]->ExisteAdmin(k);
+  
 }
 
-
-void CargarAdmin(BTree admin){
+void CargarAdmin(BTree &admin){
 	ifstream archivo;
     string texto;
     archivo.open("Administradores.txt",ios::in);
@@ -199,18 +205,12 @@ void CargarAdmin(BTree admin){
             int codAdmin=atoi(texto.substr(0, posC).c_str());
             string nombreAdmin= texto.substr(posC+1, texto.length());
             if(!admin.ExisteAdmin(codAdmin)){
-            	cout<<"Cod Admin: "<<codAdmin<<endl;
-            	cout<<"Nombre Admin: "<<nombreAdmin<<endl;
-            	cout<<endl;
             	admin.insert(codAdmin,nombreAdmin);
 			}
 			else{
 				continue;
 			}
     	}
-    	cout<<"Admins: "<<endl;
-    	admin.traverse();
-    	archivo.close();
     }
 }
 

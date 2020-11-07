@@ -13,6 +13,7 @@
 #include "Rutas.hpp"
 #include "Admin.hpp"
 #include "Usuarios.hpp"
+#include "Boleteria.hpp"
 using namespace std;
 
 
@@ -20,7 +21,7 @@ int main(){
 	//Variables de reportes
 	
 	//Cargar estructuras
-	pNodoBinario paises = CargarPaises(); //Paises
+	pNodoBinario paises = CargarPaises();//Paises
 	CargarCiudades(paises);//Ciudades
 	CargarConexiones(paises);//Conexiones
 	
@@ -28,18 +29,19 @@ int main(){
 	CargarTrenes(tipoTrenes);//Trenes
 	
 	
-	//listaC rutas;
-	//rutas.CargarRutas(paises,tipoTrenes); //Rutas
+	listaC rutas;
+	rutas.CargarRutas(paises,tipoTrenes); //Rutas
 	
 	
 	BTree admins(3);
 	CargarAdmin(admins);//Carga admin
 	
 	ArbolUsuario usuarios(5);
-	CargarUsuarios(usuarios);//Carga usuarios
-	/*
+	CargarUsuarios(usuarios,paises);//Carga usuarios
+	
+	listaBoleteria boletos;	
 	//---------------------------------------------------------Menu Principal------------------------------------------------- 
-    int opcion;int codUsuario;int registrar;bool bandera=true;
+    /*int opcion;int codUsuario;int registrar;
 	do { 
         system("cls");
          
@@ -56,14 +58,14 @@ int main(){
          
         switch (opcion) { 
             case 1: 
-				int codAdmin;                 
+				int codAdmin;             
                 cout<<"Ingrese el codigo de Administrador: "; 
                 cin>> codAdmin; 
-                if (bandera){ //Validar Admin
+                if (admins.ExisteAdmin(codAdmin)){ //Validar Admin
                 	cout<<"Bienvenido"<<endl; 
                 		int opcion; 
 						do { 
-					        system("cls"); 
+					        system("cls");
 					         
 					        cout << "\n\nSistema de Trenes" << endl; 
 					        cout << "\n\nMenu del Administrador" << endl; 
@@ -73,22 +75,23 @@ int main(){
 					        cout << "4. Consultar ciudades de un pais" << endl; 
 					        cout << "5. Consultar conexiones de una ciudad" << endl; 
 					        cout << "6. Consultar trenes de un tipo" << endl; 
-					        cout << "7. Consultar Consultar Precio" << endl; 				        
-					        cout << "8. Consultar Rutas" << endl; 
-					        cout << "9. Numero de asientos disponibles" << endl; 
-					        cout << "10. Ruta mas utilizada" << endl;
-					        cout << "11. Ruta nunca utilizada" << endl;
-					        cout << "12. Pais mas visitado" << endl;
-					        cout << "13. Ciudad mas visitada" << endl; 
-					        cout << "14. Usuario que mas reservo" << endl;
-					        cout << "15. Usuario que menos reservo" << endl;
-					        cout << "16. Cantidad de reservaciones por usuario" << endl;
-					        cout << "17. Tren mas utilizado" << endl;
-					        cout << "18. Tren menos utilizado" << endl;
-					        cout << "19. Abrir ventanilla" << endl;
-					        cout << "20. Venta de tiquetes" << endl;
-					        cout << "21. Reservacion" << endl;
-					        cout << "22. Salir" << endl;
+					        cout << "7. Consultar Precio de una ruta" << endl;
+							cout << "8. Consultar Precio de una conexion" << endl;       
+					        cout << "9. Consultar Rutas" << endl; 
+					        cout << "10. Numero de asientos disponibles" << endl; 
+					        cout << "11. Ruta mas utilizada" << endl;
+					        cout << "12. Ruta nunca utilizada" << endl;
+					        cout << "13. Pais mas visitado" << endl;
+					        cout << "14. Ciudad mas visitada" << endl; 
+					        cout << "15. Usuario que mas reservo" << endl;
+					        cout << "16. Usuario que menos reservo" << endl;
+					        cout << "17. Cantidad de reservaciones por usuario" << endl;
+					        cout << "18. Tren mas utilizado" << endl;
+					        cout << "19. Tren menos utilizado" << endl;
+					        cout << "20. Abrir ventanilla" << endl;
+					        cout << "21. Venta de tiquetes" << endl;
+					        cout << "22. Reservacion" << endl;
+					        cout << "23. Salir" << endl;
 					        cout << "\nIngrese una opcion: "; 
 					        cin >> opcion; 
 					        cout<<endl; 
@@ -147,7 +150,7 @@ int main(){
 									    system("pause>nul"); // Pausa 
 									    break;    					            
 								case 2: 
-					                int opcion3; 
+					                int opcion3;
 										do { 
 									        system("cls");      // Para limpiar la pantalla 
 									     
@@ -184,8 +187,9 @@ int main(){
 									            case 5:
 									            	rutas.ModificarRutas(paises);
 									                system("pause>nul"); // Pausa 
-									                break;       
+									                break;    
 												case 6: 
+													ModificarEstMigracion(usuarios);
 									                system("pause>nul"); // Pausa 
 									                break;      
 											} 
@@ -213,14 +217,15 @@ int main(){
 					                system("pause>nul"); // Pausa 
 					                break;                     
 					    	 	case 8:
-					    	 		rutas.ConsultarRuta();
+					    	 		ConsultarPrecioConexion(paises);
 					                system("pause>nul"); // Pausa 
 					                break; 
 								case 9:
-									CantAsientos(tipoTrenes);
+									rutas.ConsultarRuta();
 					                system("pause>nul"); // Pausa 
 					                break; 
-								case 10:                
+								case 10:
+									CantAsientos(tipoTrenes);            
 					                system("pause>nul"); // Pausa 
 					                break;
 								case 11: 
@@ -250,14 +255,18 @@ int main(){
 								case 19: 
 					                system("pause>nul"); // Pausa 
 					                break; 
-								case 20: 
+								case 20:
+									boletos.CrearColaPasajeros();
 					                system("pause>nul"); // Pausa 
 					                break;
 								case 21: 
+									VentaTiquetes(boletos,usuarios,paises,tipoTrenes);
 					                system("pause>nul"); // Pausa 
 					                break;				                   
-						} 
-				}while (opcion != 22); 
+						} 		case 22: 
+					                system("pause>nul"); // Pausa 
+					                break;	
+				}while (opcion != 23);
 				}else{ 
 					cout<<"El codigo ingresado no existe por favor vuelva a intentarlo"<<endl; 
 				} 
@@ -267,8 +276,8 @@ int main(){
             	cout<<"Si desea iniciar sesion digite 1 o si desea registrarse como usuario digite 2"<<endl;cin>>registrar;cout<<endl;
             	if(registrar==1){
             		cout<<"Ingrese la identificacion de usuario: "; cin>>codUsuario; cout<<endl;
-	            	if(bandera){ //Validar que el Usuario exista
-		                int opcion; 
+	            	if(usuarios.ExisteUsuario(codUsuario)){ //Validar que el Usuario exista
+		                int opcion;
 								do { 
 							        system("cls");      // Para limpiar la pantalla 
 							        cout << "\n\nSistema de Trenes" << endl; 
@@ -287,30 +296,32 @@ int main(){
 							         
 							        switch (opcion) { 
 							            case 1: 
-
+							            	ConsultarPaises(paises);
 							                system("pause>nul"); // Pausa 
 							                break; 
 							                 
 							            case 2: 
-							                // Lista de instrucciones de la opci?n 2                 
+							                ConsultarCiudades(paises);              
 							                system("pause>nul"); // Pausa 
 							                break; 
 										case 3: 
-							                // Lista de instrucciones de la opci?n 2                 
+							                ConsultarConexiones(paises);            
 							                system("pause>nul"); // Pausa 
 							                break;                     
-							    	 	case 4:        
+							    	 	case 4:
+										 	rutas.ConsultarRuta();
 							                system("pause>nul"); // Pausa 
 							                break; 
 										case 5: 
-							                // Lista de instrucciones de la opci?n 2                 
+							                ConsultarTrenes(tipoTrenes);
 							                system("pause>nul"); // Pausa 
 							                break; 
-										case 6:            
+										case 6:
+											rutas.ConsultarPrecio(tipoTrenes);     
 							                system("pause>nul"); // Pausa 
 							                break; 
 										case 7: 
-							                // Lista de instrucciones de la opci?n 2                 
+							                CantAsientos(tipoTrenes);               
 							                system("pause>nul"); // Pausa 
 							                break;      
 								} 
@@ -319,16 +330,15 @@ int main(){
 						cout<<"La identificacion del usuario no es valida"<<endl<<endl;
 						cout<<"Si desea registrarse ingrese 1 de lo contrario ingrese 2 para regresar: ";cin>>registrar;cout<<endl;
 						if(registrar==1){
-							//Registrar Usuario
+							RegistrarUsuario(usuarios, paises);
 						}
 					}  
 				}else{
-					//Registrar Usuario	
+					RegistrarUsuario(usuarios, paises);
 					}         
 	                system("pause>nul"); // Pausa 
 	                break;           
     	} 		 
-	}while (opcion != 3);
-	*/
+	}while (opcion != 3);*/
     return 0;
 }

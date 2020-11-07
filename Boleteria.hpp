@@ -2,6 +2,7 @@
 #include <fstream>
 #include <stdlib.h>
 #include<string>
+#include "Usuarios.hpp"
 #pragma once
 using namespace std;
 
@@ -26,7 +27,7 @@ public:
 public: // atributos
     int identificacion;
     int codTren;
-    nodoBoleteria* siguiente; /
+    nodoBoleteria* siguiente; 
 };
 typedef nodoBoleteria* pnodoBoleteria; 
 
@@ -227,11 +228,19 @@ void listaBoleteria::Mostrar(){
 }
 
 void listaBoleteria::CrearColaPasajeros(){
-	int iDPasajeros;
-	int tipoTren;
-	cout<<"Ingrese su identificacion: "; cin>>iDPasajeros; cout<<endl;
-	cout<<"Ingrese el tipo de tren al que desea abordar: "; cin>>tipoTren; cout<<endl;
-	//Cola inserto al final y elimino al inicio
-	InsertarFinal(iDPasajeros, tipoTren);
+	bool eleccion = true;
+	int eleccion2;
+	while(eleccion){
+		int iDPasajeros; cout<<"Ingrese su identificacion: "; cin>>iDPasajeros; cout<<endl;
+		int tipoTren; cout<<"Ingrese el tipo de tren al que desea abordar: "; cin>>tipoTren; cout<<endl;
+		//Cola inserto al final y elimino al inicio
+		InsertarInicio(iDPasajeros, tipoTren);
+		cout<<"Si desea seguir ingresando usuarios digite 1 de lo contrario digite 2: "; cin>>eleccion2; cout<< endl;
+		if(eleccion2==2){
+			eleccion= false;
+		}
+	}
 }
+
+
 
