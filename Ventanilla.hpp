@@ -8,15 +8,13 @@ using namespace std;
 class nodoVentanilla { 
 
 public:
-    nodoVentanilla(int iD , int cTren) 
-    {
+    nodoVentanilla(int iD , int cTren) {
         codTren = cTren;
         identificacion = iD;
         siguiente = NULL;
     }
 
-    nodoVentanilla(int iD , int cTren , nodoVentanilla* signodoVentanilla) 
-    {
+    nodoVentanilla(int iD , int cTren , nodoVentanilla* signodoVentanilla) {
         identificacion = iD;
         codTren = cTren;
         siguiente = signodoVentanilla;
@@ -32,8 +30,7 @@ typedef nodoVentanilla* pnodoVentanilla;
 
 class listaVentanilla {
 public:
-    listaVentanilla()
-    {
+    listaVentanilla(){
         primero = NULL;
 
     }
@@ -112,12 +109,10 @@ void listaVentanilla::InsertarPos(int identificacion,  int codTren, int pos){
             nuevo->siguiente = primero;
             primero = nuevo;
         }
-        else
-        {
+        else{
             if (pos >= largoLista())
                 InsertarFinal(identificacion, codTren);
-            else
-            {
+            else{
 
                 pnodoVentanilla aux = primero;
                 int i = 2;
@@ -214,8 +209,7 @@ void listaVentanilla::Mostrar(){
     nodoVentanilla* aux;
     if (primero == NULL)
         cout << "No hay elementos";
-    else
-    {
+    else{
         aux = primero;
         while (aux)
         {
