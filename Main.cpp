@@ -35,7 +35,7 @@ int main(){
 	
 	listaC rutas;
 	rutas.CargarRutas(paises,tipoTrenes); //Rutas
-	CargarCodRutas(tipoTrenes,rutas);
+	CargarCodRutas(tipoTrenes,rutas); //CodRutas
 	
 	
 	BTree admins(3);

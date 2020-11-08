@@ -12,7 +12,7 @@
 using namespace std;
 
 class NodoUsuario {	
-  //Atribtuos
+  //Atributuos
   int *keys;
   string *nombres;
   int *pais;

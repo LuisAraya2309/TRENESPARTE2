@@ -287,6 +287,17 @@ bool listaC::ExisteRuta(int codRuta){
 		}
 	}
 }
+NodoAVLTren* DevolverTren(NodoAVLTren* &R,int codTren){
+	 if(R->codTren==codTren){
+	 	return R;
+	 }
+	 else if(codTren<=R->codTren){
+	 	return DevolverTren(R->izquierda,codTren);
+	 }
+	 else{
+	 	return DevolverTren(R->derecha,codTren);
+	 }
+}
 
 pnodoCir listaC::DevolverRuta(int codRuta){
 	pnodoCir aux = primero; bool bandera = false;
@@ -374,8 +385,11 @@ void listaC::InsertarRutas(pNodoBinario &paises,pNodoTipoTren &tipoTrenes){
 			if(ExisteTipoTren(tipoTrenes,codTipTren)){
 				pNodoTipoTren trenAux = DevolverTipoTren(tipoTrenes,codTipTren);
 				if(ExisteTren(trenAux->tren,codTren)){
+					NodoAVLTren *TrenA = DevolverTren(trenAux->tren,codTren);
 					if(!ExisteRuta(codRuta)){
 						InsertarFinal(codTipTren,codTren,codRuta,codPais,codCiudad,codPais2,codCiudad2,codPrecio);
+						TrenA->codRutas.insertarBalanceado(codRuta);
+						
 						cout<<"Ruta insertada con exito"<<endl;				
 					}
 					else{
@@ -471,26 +485,78 @@ void listaC :: ConsultarPrecio(pNodoTipoTren &tipoTrenes){
 	}
 }
 
-NodoAVLTren* DevolverTren(NodoAVLTren* &R,int codTren){
-	 if(R->codTren==codTren){
-	 	return R;
-	 }
-	 else if(codTren<=R->codTren){
-	 	return DevolverTren(R->izquierda,codTren);
-	 }
-	 else{
-	 	return DevolverTren(R->derecha,codTren);
-	 }
+int ContarSeparadores(string cadena){
+	int i = 0, cont = cadena.length(), cantidad = 0;
+	while(cont!=0){
+		if(cadena[i]==';'){
+			cantidad++;
+		}
+		i++;
+		cont--;
+	}
+	return cantidad;
 }
 
 
 void CargarCodRutas(pNodoTipoTren &tipoTrenes, listaC &rutas){
-	pnodoCir aux = rutas.primero;
-	while(aux->siguiente != rutas.primero){
-		pNodoTipoTren tipTren = DevolverTipoTren(tipoTrenes, aux->codTipTren);
-		NodoAVLTren *tren = DevolverTren(tipTren->tren, aux->codTren);
-		tren->codRutas.raiz = tren->codRutas.insertarBalanceado(aux->codRutas);
-		aux=aux->siguiente;
+	ifstream archivo;
+    string texto;
+    archivo.open("Trenes.txt",ios::in);
+    if (archivo.fail()){
+        cout<<"No se pudo abrir el archivo";
+        exit(1);
+    }
+    else{
+    	while(!archivo.eof()){
+    		getline(archivo,texto);
+    		int posPC = texto.find(";"); int codTipTren = atoi(texto.substr(0, posPC).c_str()); 
+	        string Todo = texto.substr(posPC + 1, texto.length()); int posPC2 = Todo.find(";");int codTren = atoi(Todo.substr(0, posPC2).c_str()); 
+	        string Todo2 = Todo.substr(posPC2 + 1, Todo.length()); int posPC3 = Todo2.find(";");string nomTren = (Todo2.substr(0, posPC3)); 
+	        string Todo3 = Todo2.substr(posPC3 + 1, Todo2.length()); int posPC4 = Todo3.find(";"); int numAsientos = atoi((Todo3.substr(0, posPC4).c_str())); 
+	        string Todo4 = Todo3.substr(posPC4 + 1, Todo3.length());
+	         if(ExisteTipoTren(tipoTrenes,codTipTren)){
+		    	pNodoTipoTren tipoTren = DevolverTipoTren(tipoTrenes,codTipTren);
+		    	if(ExisteTren(tipoTren->tren,codTren)){
+		    		NodoAVLTren* trenAux = DevolverTren(tipoTren->tren,codTren);
+		    		int cantidad = ContarSeparadores(Todo4);
+		    		if(cantidad==0){
+		    			int aux = atoi((Todo4).c_str());
+						if(!ExisteCodRuta(trenAux->codRutas.raiz,aux)){
+			    			trenAux->codRutas.insertarBalanceado(aux);
+						}
+						else{
+							continue;
+						}
+					}
+					else{
+			    		while (cantidad!=0){
+			    			int posPC = Todo4.find(";");
+			    			int codRuta = atoi((Todo4.substr(0, posPC).c_str()));
+			    			if(!ExisteCodRuta(trenAux->codRutas.raiz,codRuta)){
+			    				trenAux->codRutas.insertarBalanceado(codRuta);
+							}
+			    			Todo4 = Todo4.substr(posPC + 1, Todo4.length());
+			    			cantidad--;
+						}
+						int aux = atoi((Todo4).c_str());
+						if(!ExisteCodRuta(trenAux->codRutas.raiz,aux)){
+			    			trenAux->codRutas.insertarBalanceado(aux);
+						}
+						else{
+							continue;
+						}
+					}
+				}
+				else{
+					continue;
+				}
+			}
+			else{
+				continue;
+			}
+		}
+		archivo.close();
+		
 	}
 }
 
