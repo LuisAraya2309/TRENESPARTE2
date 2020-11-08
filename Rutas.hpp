@@ -3,7 +3,11 @@
 #include <stdlib.h> 
 #include<string>
 #include"Paises.hpp"
-#include"TipoTren.hpp" 
+#include"TipoTren.hpp"
+#include "Trenes.hpp"
+#include "CodRutas.hpp"
+#include "Reservacion.hpp"
+#include "UsuarioReservacion.hpp"
 #pragma once 
 using namespace std; 
  
@@ -43,8 +47,8 @@ public:
     int codCiudad2 ; 
     int precio; 
     nodoCir* siguiente; 
- 
- 
+	
+	friend class ArbolRutas;
     friend class listaC; 
 }; 
  
@@ -466,3 +470,104 @@ void listaC :: ConsultarPrecio(pNodoTipoTren &tipoTrenes){
 		cout<<"El codigo de tipo de tren no existe"<<endl;
 	}
 }
+
+NodoAVLTren* DevolverTren(NodoAVLTren* &R,int codTren){
+	 if(R->codTren==codTren){
+	 	return R;
+	 }
+	 else if(codTren<=R->codTren){
+	 	return DevolverTren(R->izquierda,codTren);
+	 }
+	 else{
+	 	return DevolverTren(R->derecha,codTren);
+	 }
+}
+
+
+void CargarCodRutas(pNodoTipoTren &tipoTrenes, listaC &rutas){
+	pnodoCir aux = rutas.primero;
+	while(aux->siguiente != rutas.primero){
+		pNodoTipoTren tipTren = DevolverTipoTren(tipoTrenes, aux->codTipTren);
+		NodoAVLTren *tren = DevolverTren(tipTren->tren, aux->codTren);
+		tren->codRutas.raiz = tren->codRutas.insertarBalanceado(aux->codRutas);
+		aux=aux->siguiente;
+	}
+}
+
+
+pnodoUsuario DevolverUsuario(listaUsuario &lista, int id){
+	pnodoUsuario aux = lista.primero;
+	while(aux != NULL){
+		if(aux->identificacion== id){
+			return aux;
+		}else{
+			aux= aux->siguiente;
+		}
+	}
+}
+
+int DevolverPrecio(listaC &rutas, int codRuta){
+	pnodoCir aux = rutas.primero; bool bandera = false;
+	while(aux->siguiente != rutas.primero){
+		if(aux->codRutas==codRuta){
+			return aux->precio;
+		}
+		else{
+			aux = aux->siguiente; 
+		}
+	}
+	if(aux->codRutas==codRuta){
+		return aux->precio;
+	}
+}
+
+void Reservacion (pNodoTipoTren &tipoTrenes, listaUsuario &listaUsuarios, listaC &rutas){
+	int codVentanilla; cout<<"Ingrese el codigo de la ventana que desea atender: "; cin>>codVentanilla; cout<<endl;
+	if(ExisteTipoTren(tipoTrenes,codVentanilla)){
+		pNodoTipoTren atender = DevolverTipoTren(tipoTrenes,codVentanilla);
+		if(!atender->ventanilla.ListaVacia()){
+			cambio:
+			int codTren; cout<<"Ingrese el codigo del tren para su reservacion: "; cin>>codTren; cout<<endl;
+			if(ExisteTren(atender->tren, codTren)){
+				NodoAVLTren *TrenA = DevolverTren(atender->tren,codTren);
+				int codRuta; cout<<"Ingrese el codigo de ruta que desea reservar"; cin>>codRuta; cout<<endl;
+				if(ExisteCodRuta(TrenA->codRutas.raiz, codRuta)){
+					int cantAsientos; cout<<"Ingrese la cantidad de asientos que desea reservar: "; cin>>cantAsientos; cout<<endl;
+					if(cantAsientos<=TrenA->cantAsientos){
+						int reservar; cout<<"Si desea finalizar la reservacion digite 1 de lo contrario un 2: "; cin>>reservar; cout<<endl;
+						if(reservar==1){
+							TrenA->cantAsientos = (TrenA->cantAsientos) - cantAsientos;
+							listaUsuarios.InsertarFinal(atender->ventanilla.primero->identificacion);
+							pnodoUsuario usuario = DevolverUsuario(listaUsuarios,atender->ventanilla.primero->identificacion);
+							int precio = DevolverPrecio(rutas, codRuta);
+							usuario->reservacion.InsertarFinal(atender->ventanilla.primero->codTren,codTren,codRuta,cantAsientos,precio);
+							atender->ventanilla.BorrarInicio();
+							cout<<"Reservación agendada con exito"<<endl;
+						}else{
+							//continue;
+						}
+					}else{
+						cout<<"La cantidad de asientos solicitados excede la cantidad de asientos disponibles"<<endl;
+						cout<<"Se dispone de "<<TrenA->cantAsientos<<" asientos disponibles"<<endl;
+						int eleccion; cout<<"Si desea cambiar de tren digite 1 de lo contrario un 2: "; cin>>eleccion; cout<<endl;
+						if(eleccion==1){
+							goto cambio;
+						}else{
+							//continue;
+						}
+					}
+				}else{
+					cout<<"La ruta ingresada no existe"<<endl;
+				}
+			}else{
+				cout<<"El codigo de tren ingresado no existe"<<endl;
+			}
+		}else{
+			cout<<"No se han registrado usuarios en este tipo de tren"<<endl;
+		}
+	}else{
+		cout<<"El tipo de tren ingresado no existe"<<endl;
+	}
+
+}
+

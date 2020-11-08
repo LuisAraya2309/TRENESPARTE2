@@ -5,6 +5,7 @@
 #include<fstream>
 #include<iostream>
 #include <stdlib.h>
+#include "CodRutas.hpp"
 #pragma once
 using namespace std;
 
@@ -14,7 +15,8 @@ class NodoAVLTren{
 	string nombre;
 	int cantAsientos;
     NodoAVLTren *izquierda;  
-    NodoAVLTren *derecha;  
+    NodoAVLTren *derecha;
+    ArbolRutas codRutas;
     int FB;  
 };  
 

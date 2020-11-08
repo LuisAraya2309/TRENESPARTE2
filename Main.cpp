@@ -15,6 +15,8 @@
 #include "Usuarios.hpp"
 #include "Boleteria.hpp"
 #include "CodRutas.hpp"
+#include "Reservacion.hpp"
+#include "UsuarioReservacion.hpp"
 using namespace std;
 
 
@@ -26,12 +28,14 @@ int main(){
 	CargarCiudades(paises);//Ciudades
 	CargarConexiones(paises);//Conexiones
 	
+	
 	pNodoTipoTren tipoTrenes = CargarTipoTrenes();//Tipos de Tren
 	CargarTrenes(tipoTrenes);//Trenes
 	
 	
 	listaC rutas;
 	rutas.CargarRutas(paises,tipoTrenes); //Rutas
+	CargarCodRutas(tipoTrenes,rutas);
 	
 	
 	BTree admins(3);
@@ -40,7 +44,12 @@ int main(){
 	ArbolUsuario usuarios(5);
 	CargarUsuarios(usuarios,paises);//Carga usuarios
 	
-	listaBoleteria boletos;	
+	listaBoleteria boletos;
+	listaUsuario listaUsuarios;
+	
+	boletos.CrearColaPasajeros();
+	VentaTiquetes(boletos,usuarios,paises,tipoTrenes);
+	Reservacion(tipoTrenes,listaUsuarios,rutas);
 	//---------------------------------------------------------Menu Principal------------------------------------------------- 
     /*int opcion;int codUsuario;int registrar;
 	do { 

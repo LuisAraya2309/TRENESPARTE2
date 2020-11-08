@@ -98,6 +98,17 @@ void ArbolRutas::PreordenAA(pnodoAA &raizP){
     }
 }
 
-
+bool ExisteCodRuta(pnodoAA &raizP, int codRuta){
+    if(raizP==NULL){
+        return false;
+    }
+	else if(raizP->valor==codRuta){
+        return true;
+    }
+	else{
+        ExisteCodRuta(raizP->Hizq, codRuta);
+        ExisteCodRuta(raizP->Hder, codRuta);
+    }
+}
 
 #endif
