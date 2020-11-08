@@ -2,8 +2,8 @@
 #include <iostream> 
 #include <stdlib.h> 
 #include<string>
-#include"NodoBinario.hpp"
-#include"NodoTipoTren.hpp" 
+#include"Paises.hpp"
+#include"TipoTren.hpp" 
 #pragma once 
 using namespace std; 
  

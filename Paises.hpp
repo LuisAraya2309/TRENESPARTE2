@@ -6,8 +6,9 @@
 #include<fstream>
 #include<iostream>
 #include <stdlib.h>
-#include "NodoAVL.hpp"
-#include "Rojinegro.hpp"
+#include "Ciudades.hpp"
+#include "Conexiones.hpp"
+
 using namespace std;
 class NodoBinario {
    public:

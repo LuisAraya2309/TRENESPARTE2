@@ -7,7 +7,7 @@
 #include<string>
 #include<sstream>
 #include <math.h>
-#include "NodoBinario.hpp"
+#include "Paises.hpp"
 #pragma once
 using namespace std;
 

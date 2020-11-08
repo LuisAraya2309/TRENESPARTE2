@@ -6,9 +6,10 @@
 #include<fstream>
 #include<iostream>
 #include <stdlib.h>
-#include "TrenAVL.hpp"
-#include "Boleteria.hpp"
-#include "Usuarios.hpp"
+#include "Trenes.hpp" //trenes
+#include "CodRutas.hpp" //codigos de ruta
+#include "Boleteria.hpp" //boleteria
+#include "Usuarios.hpp" // Usuarios
 
 
 using namespace std;
@@ -63,6 +64,7 @@ void InsertarTipTren(pNodoTipoTren &tipoTrenes,int num, string nombre){
 		}
 	}
 }
+
 bool ExisteTipoTren(pNodoTipoTren& R, int tipTren){
 	if(R==NULL){
 	 	return false;

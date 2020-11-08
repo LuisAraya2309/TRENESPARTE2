@@ -7,13 +7,14 @@
 #include<string>
 #include<sstream>
 #include <math.h>
-#include "NodoBinario.hpp"
-#include "NodoTipoTren.hpp"
-#include "NodoAVL.hpp"
+#include "Paises.hpp"
+#include "TipoTren.hpp"
+#include "Ciudades.hpp"
 #include "Rutas.hpp"
 #include "Admin.hpp"
 #include "Usuarios.hpp"
 #include "Boleteria.hpp"
+#include "CodRutas.hpp"
 using namespace std;
 
 
