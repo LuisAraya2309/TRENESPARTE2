@@ -103,7 +103,6 @@ bool ExisteCodRuta(pnodoAA &raizP, int codRuta){
     }
 	else{
 		if(raizP->valor==codRuta){
-			cout<<raizP->valor<<" - "<<codRuta<<endl;
 			return true;
 		}
         ExisteCodRuta(raizP->Hizq, codRuta);

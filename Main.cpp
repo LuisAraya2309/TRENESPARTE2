@@ -22,10 +22,14 @@ using namespace std;
 
 int main(){
 	//Variables de reportes
+	int mayor;
+    string paisAux;
 	string ultimoPais;
 	string ultimaCiudad;
 	string ultimaConexion;
 	string ultimoTren;
+	listaBoleteria reporteCiudad;
+	listaBoleteria reporteTren;
 	//Cargar estructuras
 	pNodoBinario paises = CargarPaises();//Paises
 	CargarCiudades(paises);//Ciudades
@@ -48,23 +52,16 @@ int main(){
 	
 	listaBoleteria boletos;
 	listaUsuario listaUsuarios;
-	boletos.CrearColaPasajeros();
+	/*boletos.CrearColaPasajeros();
 	VentaTiquetes(boletos,usuarios,paises,tipoTrenes);
-	Reservacion(tipoTrenes,paises,listaUsuarios,rutas);
-	Reservacion(tipoTrenes,paises,listaUsuarios,rutas);
-	Reservacion(tipoTrenes,paises,listaUsuarios,rutas);
-	
-	int mayor;
-    string paisAux;
-    PaisMayor(paises,mayor,paisAux);
-    cout<<"Pais mas visitado: "<<paisAux<<endl;
-    
-	
+	Reservacion(tipoTrenes,paises,listaUsuarios,rutas, reporteCiudad, reporteTren);
+	Reservacion(tipoTrenes,paises,listaUsuarios,rutas, reporteCiudad, reporteTren);
+	Reservacion(tipoTrenes,paises,listaUsuarios,rutas, reporteCiudad, reporteTren);*/
+
 	//---------------------------------------------------------Menu Principal------------------------------------------------- 
 	//Variables del menu-----------------------------
-    int opcion,codUsuario,registrar,RutaMayor,RutaMenor;
+    int opcion,codUsuario,registrar,rutaMa,rutaMe;
     //------------------------------------------------
-    /*
 	do { 
         system("cls");
          
@@ -272,16 +269,22 @@ int main(){
 					                system("pause>nul"); // Pausa 
 					                break;
 								case 11:
+									rutaMa = RutaMayor(rutas); 
+									cout<<"La ruta mas utilizada es "<<rutaMa<<endl;
 					                system("pause>nul"); // Pausa 
 					                break; 
-								case 12: 
+								case 12:
+									rutaMe = RutaMenor(rutas);
+									cout<<"La ruta menos utilizada es "<<rutaMe<<endl;
 					                system("pause>nul"); // Pausa 
 					                break;	
 								case 13:
-									cout<<"El pais mas visitado es "<<DevolverPais2(paises, PaisMayor(listaRP))<<endl;
+									PaisMayor(paises,mayor,paisAux);
+									cout<<"El pais mas visitado es "<<paisAux<<endl;
 					                system("pause>nul"); // Pausa 
 					                break; 
 								case 14: 
+									cout<<"Ciudad mas visitada: "<<Ciudad(reporteCiudad, paises)<<endl;
 					                system("pause>nul"); // Pausa 
 					                break; 
 								case 15:                
@@ -293,12 +296,14 @@ int main(){
 								case 17: 
 					                system("pause>nul"); // Pausa 
 					                break;
-								case 18:                
+								case 18:
+									cout<<"Tren mas utilizado: "<<TrenMayor(reporteTren, tipoTrenes)<<endl;
 					                system("pause>nul"); // Pausa 
 					                break;
 								case 19: 
+									cout<<"Tren menos utilizado: "<<TrenMenor(reporteTren, tipoTrenes)<<endl;
 					                system("pause>nul"); // Pausa 
-					                break; 
+					                break;
 								case 20:
 									boletos.CrearColaPasajeros();
 					                system("pause>nul"); // Pausa 
@@ -306,11 +311,12 @@ int main(){
 								case 21: 
 									VentaTiquetes(boletos,usuarios,paises,tipoTrenes);
 					                system("pause>nul"); // Pausa 
-					                break;				                   
-						} 		case 22:
-									Reservacion(tipoTrenes,listaUsuarios,rutas);
+					                break;
+								case 22:
+									Reservacion(tipoTrenes,paises,listaUsuarios,rutas, reporteCiudad, reporteTren);
 					                system("pause>nul"); // Pausa 
-					                break;	
+					                break;				                   
+						} 		
 				}while (opcion != 23);
 				}else{ 
 					cout<<"El codigo ingresado no existe por favor vuelva a intentarlo"<<endl; 
@@ -385,6 +391,5 @@ int main(){
 	                break;           
     	} 		 
 	}while (opcion != 3);
-	*/
     return 0;
 }

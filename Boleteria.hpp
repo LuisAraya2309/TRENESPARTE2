@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include<string>
 #include "Usuarios.hpp"
+#include "UsuarioReservacion.hpp"
 #pragma once
 using namespace std;
 
@@ -14,6 +15,7 @@ public:
         codTren = cTren;
         identificacion = iD;
         siguiente = NULL;
+        reservacion = 0;
     }
 
     nodoBoleteria(int iD , int cTren , nodoBoleteria* signodoBoleteria) 
@@ -27,6 +29,7 @@ public:
 public: // atributos
     int identificacion;
     int codTren;
+    int reservacion;
     nodoBoleteria* siguiente; 
 };
 typedef nodoBoleteria* pnodoBoleteria; 
@@ -51,6 +54,8 @@ public:
     void borrarPosicion(int pos);
     int largoLista();
     void CrearColaPasajeros();
+    bool InsertarCiudad(int codCiudad, int codPais);
+    void ModCiudad(int codCiudad, int codPais);
 public:
     pnodoBoleteria primero; 
 
@@ -137,7 +142,7 @@ void listaBoleteria::InsertarPos(int identificacion,  int codTren, int pos){
 
 void listaBoleteria::BorrarFinal(){
     if (ListaVacia()) {
-        cout << "No hay elementos en la lista:" << endl;
+        cout << "No hay elementos en la lista" << endl;
 
     }
     else {
@@ -163,7 +168,7 @@ void listaBoleteria::BorrarFinal(){
 
 void listaBoleteria::BorrarInicio(){
     if (ListaVacia()) {
-        cout << "No hay elementos en la lista:" << endl;
+        cout << "No hay elementos en la lista" << endl;
 
     }
     else
@@ -240,6 +245,48 @@ void listaBoleteria::CrearColaPasajeros(){
 			eleccion= false;
 		}
 	}
+}
+
+
+bool listaBoleteria::InsertarCiudad(int codCiudad, int codPais){
+	if (ListaVacia()){
+		primero = new nodoBoleteria(codPais, codCiudad);
+	}
+    else{
+    	pnodoBoleteria aux = primero;
+    	while(aux != NULL){
+    		if(aux->codTren==codCiudad){
+    			return false;
+			}else{
+				aux= aux->siguiente;
+			}
+		}primero = new nodoBoleteria(codPais, codCiudad, primero);
+		return true;
+	}
+}
+
+void listaBoleteria::ModCiudad(int codCiudad, int codPais){
+	pnodoBoleteria aux = primero;
+	while(aux != NULL){
+		if(aux->codTren==codCiudad){
+			aux->reservacion++;
+			break;
+		}else{
+			aux= aux->siguiente;
+		}
+	}
+}
+
+string Ciudad(listaBoleteria &ciudad, pNodoBinario &paises){
+	pnodoBoleteria aux = ciudad.primero;
+	pnodoBoleteria mayor = ciudad.primero;
+	while(aux!=NULL){
+		if(aux->reservacion>mayor->reservacion){
+			mayor = aux; 
+		}
+		aux= aux->siguiente;
+	}
+	return DevolverCiudad2(DevolverPais(paises, mayor->identificacion)->ciudad,mayor->codTren);
 }
 
 

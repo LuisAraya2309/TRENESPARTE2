@@ -106,27 +106,3 @@ void listaUsuario::Mostrar(){
     }
 }
 
-int PaisMayor(listaUsuario &rp){
-	pnodoUsuario aux = rp.primero;
-	pnodoUsuario mayor = rp.primero;
-	while(aux!=NULL){
-		if(aux->reporte>mayor->reporte){
-			mayor = aux; 
-		}
-		aux= aux->siguiente;
-	}
-	return mayor->identificacion;
-}
-
-int CiudadMayor(listaUsuario &rc){
-	pnodoUsuario aux = rc.primero;
-	pnodoUsuario mayor = rc.primero;
-	while(aux!=NULL){
-		if(aux->reporte>mayor->reporte){
-			mayor = aux; 
-		}
-		aux= aux->siguiente;
-	}
-	return mayor->identificacion;
-}
-

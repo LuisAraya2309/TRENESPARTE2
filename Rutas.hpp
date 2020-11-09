@@ -8,6 +8,7 @@
 #include "CodRutas.hpp"
 #include "Reservacion.hpp"
 #include "UsuarioReservacion.hpp"
+#include "Boleteria.hpp"
 #pragma once 
 using namespace std; 
  
@@ -300,6 +301,8 @@ NodoAVLTren* DevolverTren(NodoAVLTren* &R,int codTren){
 	 	return DevolverTren(R->derecha,codTren);
 	 }
 }
+
+
 
 pnodoCir listaC::DevolverRuta(int codRuta){
 	pnodoCir aux = primero; bool bandera = false;
@@ -604,7 +607,7 @@ void PaisMayor(NodoBinario *R,int mayor,string &paisAux){
     }
 }
 
-void Reservacion (pNodoTipoTren &tipoTrenes,pNodoBinario &paises,listaUsuario &listaUsuarios, listaC &rutas){
+void Reservacion (pNodoTipoTren &tipoTrenes,pNodoBinario &paises,listaUsuario &listaUsuarios, listaC &rutas, listaBoleteria &reporteCiudad, listaBoleteria &reporteTren){
 	int codVentanilla; cout<<"Ingrese el codigo de la ventana que desea atender: "; cin>>codVentanilla; cout<<endl;
 	if(ExisteTipoTren(tipoTrenes,codVentanilla)){
 		pNodoTipoTren atender = DevolverTipoTren(tipoTrenes,codVentanilla);
@@ -628,6 +631,15 @@ void Reservacion (pNodoTipoTren &tipoTrenes,pNodoBinario &paises,listaUsuario &l
 							//REPORTES-------------------------------------------------------------------------
 							rutas.DevolverRuta(codRuta)->reservacion++;
 							DevolverPais(paises,rutas.DevolverRuta(codRuta)->codPais2)->reservacion++;
+							DevolverTren(tipoTrenes, rutas.DevolverRuta(codRuta)->codTren)->reservacion++;
+							bool bandera = reporteCiudad.InsertarCiudad(rutas.DevolverRuta(codRuta)->codCiudad2,rutas.DevolverRuta(codRuta)->codPais2);
+							if(!bandera){
+								reporteCiudad.ModCiudad(rutas.DevolverRuta(codRuta)->codCiudad2,rutas.DevolverRuta(codRuta)->codPais2);
+							}
+							bool bandera1 = reporteTren.InsertarCiudad(codTren, codVentanilla);
+							if(!bandera1){
+								reporteTren.ModCiudad(codTren, codVentanilla);
+							}
 							//REPORTES-------------------------------------------------------------------------
 							cout<<"Reservacion agendada con exito"<<endl;
 						}else{
