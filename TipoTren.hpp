@@ -193,7 +193,7 @@ void CargarTrenes(pNodoTipoTren& tipoTrenes ){
 	}
 }
 
-void RegistrarTrenes(pNodoTipoTren& tipoTrenes ){
+void RegistrarTrenes(pNodoTipoTren& tipoTrenes, string &ultimoTren){
 	int codTipTren; cout<<"Ingrese el codigo de tipo de tren: "; cin>>codTipTren; cout<<endl;
 	int codTren; cout<<"Ingrese el codigo de tren: "; cin>>codTren; cout<<endl;
 	string nomTren; cout<<"Ingrese el nombre del tren: "; cin>>nomTren; cout<<endl;
@@ -202,6 +202,11 @@ void RegistrarTrenes(pNodoTipoTren& tipoTrenes ){
     	pNodoTipoTren tipoTren = DevolverTipoTren(tipoTrenes,codTipTren);
     	if(!ExisteTren(tipoTrenes->tren,codTren)){
     		tipoTren->tren = insertarnodoAVLTren(tipoTren->tren,codTren,nomTren,numAsientos);
+    		stringstream ss;
+			ss<<codTren;
+			string codCiudadS = ss.str();
+			ultimoTren = ("Ultimo Tren insertado: " + nomTren+" Codigo: " +codCiudadS);
+			cout<<"El tren fue regstrado con exito"<<endl;
 		}else{
 			cout<<"El codigo de tren ya existe"<<endl;
 		}	

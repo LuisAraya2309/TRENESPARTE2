@@ -589,7 +589,7 @@ int DevolverPrecio(listaC &rutas, int codRuta){
 	}
 }
 
-void Reservacion (pNodoTipoTren &tipoTrenes,pNodoBinario &paises,listaUsuario &listaUsuarios, listaC &rutas){
+void Reservacion (pNodoTipoTren &tipoTrenes,listaUsuario &listaUsuarios, listaC &rutas){
 	int codVentanilla; cout<<"Ingrese el codigo de la ventana que desea atender: "; cin>>codVentanilla; cout<<endl;
 	if(ExisteTipoTren(tipoTrenes,codVentanilla)){
 		pNodoTipoTren atender = DevolverTipoTren(tipoTrenes,codVentanilla);
@@ -610,8 +610,9 @@ void Reservacion (pNodoTipoTren &tipoTrenes,pNodoBinario &paises,listaUsuario &l
 							int precio = DevolverPrecio(rutas, codRuta);
 							usuario->reservacion.InsertarFinal(atender->ventanilla.primero->codTren,codTren,codRuta,cantAsientos,precio);
 							atender->ventanilla.BorrarInicio();
+							//REPORTES-------------------------------------------------------------------------
 							rutas.DevolverRuta(codRuta)->reservacion++;
-							DevolverPais(paises,rutas.DevolverRuta(codRuta)->codPais2)->reservacion++;
+							//REPORTES-------------------------------------------------------------------------
 							cout<<"Reservacion agendada con exito"<<endl;
 						}else{
 							//continue;
@@ -653,9 +654,9 @@ int RutaMayor(listaC &rutas){
 	if(aux->reservacion>mayor->reservacion){
 			mayor = aux; 
 		}
-	
 	return mayor->codRutas;
 }
+
 int RutaMenor(listaC &rutas){
 	pnodoCir aux = rutas.primero;
 	pnodoCir mayor = rutas.primero;

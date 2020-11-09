@@ -16,7 +16,6 @@ class NodoBinario {
 		valor = v;
 		nombre =pnombre;
 		ciudad = NULL;
-		reservacion = 0;
 		Hder = NULL;
 		Hizq = NULL;
 		siguiente = NULL;
@@ -26,7 +25,6 @@ class NodoBinario {
 	//Atributos
     int valor;
     string nombre;
-    int reservacion;
     NodoBinario *Hizq, *Hder, *siguiente, *anterior;
     NodoAVL *ciudad;
 
@@ -76,18 +74,20 @@ void InsertarNodoPais(pNodoBinario &paises,int num, string nombre){
 	}
 }
 
-void InsertarPais(pNodoBinario &paises){
+void InsertarPais(pNodoBinario &paises, string &ultimoPais){
 	int codPais;
 	string nombrePais;
-	cout<<"Ingrese el codigo del pais nuevo: "<<endl;
-	cin>>codPais;
-	cout<<"Ingrese el nombre del pais: "<<endl;
-	cin>>nombrePais;
+	cout<<"Ingrese el codigo del pais nuevo: "; cin>>codPais; cout<<endl;
+	cout<<"Ingrese el nombre del pais: "; cin>>nombrePais; cout<<endl;
 	if(ExistePais(paises,codPais)){
 		cout<<"El codigo del pais ingresado ya existe."<<endl;
 	}
 	else{
 		InsertarNodoPais(paises,codPais,nombrePais);
+		stringstream ss;
+		ss<<codPais;
+		string codPaisS = ss.str();
+		ultimoPais = ("Ultimo pais insertado: " + nombrePais + "\n" + "Codigo: " + codPaisS);
 		cout<<"El pais fue ingresado con exito."<<endl;
 	}
 	
@@ -142,6 +142,19 @@ pNodoBinario DevolverPais(pNodoBinario &R,int pais){
 	 	return DevolverPais(R->Hder,pais);
 	 }
 }
+
+
+string DevolverPais2(pNodoBinario &R,int pais){
+	 if(R->valor==pais){
+	 	return R->nombre;
+	 }
+	 else if(pais<=R->valor){
+	 	return DevolverPais2(R->Hizq,pais);
+	 }
+	 else{
+	 	return DevolverPais2(R->Hder,pais);
+	 }
+}
 //Devuelve una ciudad
 NodoAVL* DevolverCiudad(NodoAVL* &R,int codCiudad){
 	 if(R->codCiudad==codCiudad){
@@ -152,6 +165,18 @@ NodoAVL* DevolverCiudad(NodoAVL* &R,int codCiudad){
 	 }
 	 else{
 	 	return DevolverCiudad(R->derecha,codCiudad);
+	 }
+}
+
+string DevolverCiudad2(NodoAVL* &R,int codCiudad){
+	 if(R->codCiudad==codCiudad){
+	 	return R->nombre;
+	 }
+	 else if(codCiudad<=R->codCiudad){
+	 	return DevolverCiudad2(R->izquierda,codCiudad);
+	 }
+	 else{
+	 	return DevolverCiudad2(R->derecha,codCiudad);
 	 }
 }
 //Cargar Ciudades
@@ -191,7 +216,7 @@ void CargarCiudades(pNodoBinario& paises ){
 }
 
 
-void InsertarCiudad(pNodoBinario& paises ){
+void InsertarCiudad(pNodoBinario& paises, string &ultimaCiudad){
     int codPais; cout<<"Ingrese el codigo del pais al que pertenece la ciudad: "; cin>>codPais; cout<<endl;
     if(ExistePais(paises,codPais)){
     	pNodoBinario pais = DevolverPais(paises,codPais);
@@ -199,6 +224,11 @@ void InsertarCiudad(pNodoBinario& paises ){
         string nomCiudad; cout<<"Ingrese el nombre de la ciudad: "; cin>>nomCiudad; cout<<endl;
     	if(!ExisteCiudad(pais->ciudad,codCiudad)){
     		pais->ciudad = insertarnodoAVL(pais->ciudad,codCiudad,nomCiudad);
+    		stringstream ss;
+			ss<<codCiudad;
+			string codCiudadS = ss.str();
+			ultimaCiudad = ("Ultima ciudad insertada: " + nomCiudad + "\n" + "Codigo: " + codCiudadS);
+			cout<<"La ciudad fue ingresada con exito."<<endl;
 		}
 		else{
 			cout<<"El codigo de la ciudad ya existe"<<endl;
@@ -310,7 +340,7 @@ void CargarConexiones(pNodoBinario &paises){
     }
 }
 
-void InsertarConexion(pNodoBinario &paises){
+void InsertarConexion(pNodoBinario &paises, string &ultimaConexion){
 	int codPais; cout<<"Ingrese el codigo del pais: "; cin>>codPais; cout<<endl;
 	int codCiudad; cout<<"Ingrese el codigo de la ciudad: "; cin>>codCiudad; cout<<endl;
 	int codConexion; cout<<"Ingrese el codigo de la conexion: "; cin>>codConexion; cout<<endl;
@@ -325,6 +355,10 @@ void InsertarConexion(pNodoBinario &paises){
 			NodoAVL *ciudadAux = DevolverCiudad(paisAux->ciudad,codCiudad);
 			if(!ExisteConexion(ciudadAux->conexiones.raiz,codConexion)){
 				ciudadAux->conexiones.insercionRN(codConexion,codPais2,codCiudad2,codTiempo, codPrecio);
+				stringstream ss;
+				ss<<codConexion;
+				string codCiudadS = ss.str();
+				ultimaConexion = ("Ultima conexion insertada: " + codCiudadS);
 				cout<<"Conexion Ingresada con exito"<<endl;
 			}
 			else{
@@ -409,28 +443,8 @@ void ConsultarPrecioConexion(pNodoBinario &paises){
 	}
 }
 
-int PaisMayorAux(NodoBinario *R, int mayor){
-    if(R==NULL){
-    	return mayor;
-	}
-	else{
-		if(R->reservacion>mayor){
-			mayor = R->reservacion; 
-		}
-        PaisMayorAux(R->Hizq,mayor);
-        PaisMayorAux(R->Hder,mayor);
-	}
-	
-}
 
-string PaisMayor(pNodoBinario &R,int mayor){
-	if(R->reservacion==mayor){
-	 	return R->nombre;
-	}
-	PaisMayor(R->Hizq,mayor);	
-	PaisMayor(R->Hder,mayor);
-	 
-}
+
 
 
 #endif	

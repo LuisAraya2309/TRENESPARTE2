@@ -22,7 +22,10 @@ using namespace std;
 
 int main(){
 	//Variables de reportes
-	
+	string ultimoPais;
+	string ultimaCiudad;
+	string ultimaConexion;
+	string ultimoTren;
 	//Cargar estructuras
 	pNodoBinario paises = CargarPaises();//Paises
 	CargarCiudades(paises);//Ciudades
@@ -46,20 +49,16 @@ int main(){
 	listaBoleteria boletos;
 	listaUsuario listaUsuarios;
 	
-	
+	listaUsuario listaRP;
+	listaUsuario listaRC;
+	listaUsuario listaRT;
 
 	
 	//---------------------------------------------------------Menu Principal------------------------------------------------- 
 	//Variables del menu-----------------------------
     int opcion,codUsuario,registrar,RutaMayor,RutaMenor;
-    boletos.CrearColaPasajeros();
-    VentaTiquetes(boletos,usuarios,paises,tipoTrenes);
-    Reservacion(tipoTrenes,paises,listaUsuarios,rutas);
-    NodoBinario *aux = paises;
-    int mayor = 0;cout<<"Pais mas visitado: "<<PaisMayor(paises,PaisMayorAux(paises,mayor))<<endl;
     //------------------------------------------------
-    /*
-	do { s
+	do { 
         system("cls");
          
         // Texto del men? que se ver? cada vez 
@@ -135,15 +134,15 @@ int main(){
 									        switch (opcion) { 
 									        	 
 									            case 1:
-									            	InsertarPais(paises);
+									            	InsertarPais(paises , ultimoPais);
 													system("pause>nul"); 
 													break;  
 									            case 2:
-									            	InsertarCiudad(paises);
+									            	InsertarCiudad(paises, ultimaCiudad);
 									            	system("pause>nul"); 
 									                break;    
 												case 3:
-													InsertarConexion(paises);
+													InsertarConexion(paises, ultimaConexion);
 									                system("pause>nul"); // Pausa 
 									                break;                 
 									    	 	case 4:
@@ -155,11 +154,31 @@ int main(){
 									                system("pause>nul"); // Pausa 
 									                break;  
 												case 6:
-													RegistrarTrenes(tipoTrenes);
+													RegistrarTrenes(tipoTrenes, ultimoTren);
 									                system("pause>nul"); // Pausa 
 									                break; 
 												case 7:
 													cout<<"Actividad de insertados: "<<endl;
+													if(ultimoPais==""){
+														cout<<"No se ha insertado ningun pais"<<endl;
+													}else{
+														cout<<ultimoPais<<endl;
+													}
+													if(ultimaCiudad==""){
+														cout<<"No se ha insertado ninguna ciudad"<<endl;
+													}else{
+														cout<<ultimaCiudad<<endl;
+													}
+													if(ultimaConexion==""){
+														cout<<"No se ha insertado ninguna conexion"<<endl;
+													}else{
+														cout<<ultimaConexion<<endl;
+													}
+													if(ultimoTren==""){
+														cout<<"No se ha insertado ningun tren"<<endl;
+													}else{
+														cout<<ultimoTren<<endl;
+													}
 									                system("pause>nul"); // Pausa 
 									                break;        
 											} 
@@ -246,14 +265,13 @@ int main(){
 					                system("pause>nul"); // Pausa 
 					                break;
 								case 11:
-									mayor = RutaMayor(rutas);
-									cout<<"La ruta mas utilizada es: "<<mayor<<endl; 
 					                system("pause>nul"); // Pausa 
 					                break; 
 								case 12: 
 					                system("pause>nul"); // Pausa 
 					                break;	
-								case 13: 
+								case 13:
+									cout<<"El pais mas visitado es "<<DevolverPais2(paises, PaisMayor(listaRP))<<endl;
 					                system("pause>nul"); // Pausa 
 					                break; 
 								case 14: 
@@ -359,6 +377,6 @@ int main(){
 	                system("pause>nul"); // Pausa 
 	                break;           
     	} 		 
-	}while (opcion != 3);*/
+	}while (opcion != 3);
     return 0;
 }
