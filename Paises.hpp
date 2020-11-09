@@ -409,5 +409,29 @@ void ConsultarPrecioConexion(pNodoBinario &paises){
 	}
 }
 
+int PaisMayorAux(NodoBinario *R, int mayor){
+    if(R==NULL){
+    	return mayor;
+	}
+	else{
+		if(R->reservacion>mayor){
+			mayor = R->reservacion; 
+		}
+        PaisMayorAux(R->Hizq,mayor);
+        PaisMayorAux(R->Hder,mayor);
+	}
+	
+}
+
+string PaisMayor(pNodoBinario &R,int mayor){
+	if(R->reservacion==mayor){
+	 	return R->nombre;
+	}
+	PaisMayor(R->Hizq,mayor);	
+	PaisMayor(R->Hder,mayor);
+	 
+}
+
+
 #endif	
 

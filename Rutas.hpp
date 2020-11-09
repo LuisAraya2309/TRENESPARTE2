@@ -23,6 +23,7 @@ public:
         codCiudad2 = ciudad2c; 
         precio = precioc; 
         siguiente = NULL; 
+        reservacion = 0;
     } 
  
     nodoCir(int v, int trenc, int rutac, int paisc, int ciudadc, int pais2c, int ciudad2c,int precioc, nodoCir* signodo) { 
@@ -45,7 +46,8 @@ public:
     int codCiudad1 ; 
     int codPais2 ; 
     int codCiudad2 ; 
-    int precio; 
+    int precio;
+	int reservacion; 
     nodoCir* siguiente; 
 	
 	friend class ArbolRutas;
@@ -587,7 +589,7 @@ int DevolverPrecio(listaC &rutas, int codRuta){
 	}
 }
 
-void Reservacion (pNodoTipoTren &tipoTrenes, listaUsuario &listaUsuarios, listaC &rutas){
+void Reservacion (pNodoTipoTren &tipoTrenes,pNodoBinario &paises,listaUsuario &listaUsuarios, listaC &rutas){
 	int codVentanilla; cout<<"Ingrese el codigo de la ventana que desea atender: "; cin>>codVentanilla; cout<<endl;
 	if(ExisteTipoTren(tipoTrenes,codVentanilla)){
 		pNodoTipoTren atender = DevolverTipoTren(tipoTrenes,codVentanilla);
@@ -608,6 +610,8 @@ void Reservacion (pNodoTipoTren &tipoTrenes, listaUsuario &listaUsuarios, listaC
 							int precio = DevolverPrecio(rutas, codRuta);
 							usuario->reservacion.InsertarFinal(atender->ventanilla.primero->codTren,codTren,codRuta,cantAsientos,precio);
 							atender->ventanilla.BorrarInicio();
+							rutas.DevolverRuta(codRuta)->reservacion++;
+							DevolverPais(paises,rutas.DevolverRuta(codRuta)->codPais2)->reservacion++;
 							cout<<"Reservacion agendada con exito"<<endl;
 						}else{
 							//continue;
@@ -636,3 +640,34 @@ void Reservacion (pNodoTipoTren &tipoTrenes, listaUsuario &listaUsuarios, listaC
 	}
 }
 
+
+int RutaMayor(listaC &rutas){
+	pnodoCir aux = rutas.primero;
+	pnodoCir mayor = rutas.primero;
+	while(aux->siguiente!=rutas.primero){
+		if(aux->reservacion>mayor->reservacion){
+			mayor = aux; 
+		}
+		aux= aux->siguiente;
+	}
+	if(aux->reservacion>mayor->reservacion){
+			mayor = aux; 
+		}
+	
+	return mayor->codRutas;
+}
+int RutaMenor(listaC &rutas){
+	pnodoCir aux = rutas.primero;
+	pnodoCir mayor = rutas.primero;
+	while(aux->siguiente!=rutas.primero){
+		if(aux->reservacion<mayor->reservacion){
+			mayor = aux; 
+		}
+		aux= aux->siguiente;
+	}
+	if(aux->reservacion<mayor->reservacion){
+			mayor = aux; 
+		}
+	
+	return mayor->codRutas;
+}

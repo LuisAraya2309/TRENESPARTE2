@@ -46,13 +46,20 @@ int main(){
 	listaBoleteria boletos;
 	listaUsuario listaUsuarios;
 	
+	
 
 	
-	//listaUsuarios.Mostrar();
-	//listaUsuarios.primero->reservacion.Mostrar();
 	//---------------------------------------------------------Menu Principal------------------------------------------------- 
-    /*int opcion;int codUsuario;int registrar;
-	do { 
+	//Variables del menu-----------------------------
+    int opcion,codUsuario,registrar,RutaMayor,RutaMenor;
+    boletos.CrearColaPasajeros();
+    VentaTiquetes(boletos,usuarios,paises,tipoTrenes);
+    Reservacion(tipoTrenes,paises,listaUsuarios,rutas);
+    NodoBinario *aux = paises;
+    int mayor = 0;cout<<"Pais mas visitado: "<<PaisMayor(paises,PaisMayorAux(paises,mayor))<<endl;
+    //------------------------------------------------
+    /*
+	do { s
         system("cls");
          
         // Texto del men? que se ver? cada vez 
@@ -238,7 +245,9 @@ int main(){
 									CantAsientos(tipoTrenes);            
 					                system("pause>nul"); // Pausa 
 					                break;
-								case 11: 
+								case 11:
+									mayor = RutaMayor(rutas);
+									cout<<"La ruta mas utilizada es: "<<mayor<<endl; 
 					                system("pause>nul"); // Pausa 
 					                break; 
 								case 12: 
