@@ -15,6 +15,7 @@ class NodoBinario {
 	NodoBinario(int v,string pnombre){
 		valor = v;
 		nombre =pnombre;
+		reservacion= 0;
 		ciudad = NULL;
 		Hder = NULL;
 		Hizq = NULL;
@@ -23,7 +24,7 @@ class NodoBinario {
 	}
 	
 	//Atributos
-    int valor;
+    int valor,reservacion;
     string nombre;
     NodoBinario *Hizq, *Hder, *siguiente, *anterior;
     NodoAVL *ciudad;

@@ -589,7 +589,22 @@ int DevolverPrecio(listaC &rutas, int codRuta){
 	}
 }
 
-void Reservacion (pNodoTipoTren &tipoTrenes,listaUsuario &listaUsuarios, listaC &rutas){
+void PaisMayor(NodoBinario *R,int mayor,string &paisAux){
+
+    if(R==NULL){
+        return;
+    }
+    else{
+        if(R->reservacion>mayor){
+        	paisAux = R->nombre;
+        	mayor = R->reservacion;
+		}
+        PaisMayor(R->Hizq,mayor,paisAux);
+        PaisMayor(R->Hder,mayor,paisAux);
+    }
+}
+
+void Reservacion (pNodoTipoTren &tipoTrenes,pNodoBinario &paises,listaUsuario &listaUsuarios, listaC &rutas){
 	int codVentanilla; cout<<"Ingrese el codigo de la ventana que desea atender: "; cin>>codVentanilla; cout<<endl;
 	if(ExisteTipoTren(tipoTrenes,codVentanilla)){
 		pNodoTipoTren atender = DevolverTipoTren(tipoTrenes,codVentanilla);
@@ -612,6 +627,7 @@ void Reservacion (pNodoTipoTren &tipoTrenes,listaUsuario &listaUsuarios, listaC 
 							atender->ventanilla.BorrarInicio();
 							//REPORTES-------------------------------------------------------------------------
 							rutas.DevolverRuta(codRuta)->reservacion++;
+							DevolverPais(paises,rutas.DevolverRuta(codRuta)->codPais2)->reservacion++;
 							//REPORTES-------------------------------------------------------------------------
 							cout<<"Reservacion agendada con exito"<<endl;
 						}else{

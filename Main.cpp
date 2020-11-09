@@ -48,16 +48,23 @@ int main(){
 	
 	listaBoleteria boletos;
 	listaUsuario listaUsuarios;
+	boletos.CrearColaPasajeros();
+	VentaTiquetes(boletos,usuarios,paises,tipoTrenes);
+	Reservacion(tipoTrenes,paises,listaUsuarios,rutas);
+	Reservacion(tipoTrenes,paises,listaUsuarios,rutas);
+	Reservacion(tipoTrenes,paises,listaUsuarios,rutas);
 	
-	listaUsuario listaRP;
-	listaUsuario listaRC;
-	listaUsuario listaRT;
-
+	int mayor;
+    string paisAux;
+    PaisMayor(paises,mayor,paisAux);
+    cout<<"Pais mas visitado: "<<paisAux<<endl;
+    
 	
 	//---------------------------------------------------------Menu Principal------------------------------------------------- 
 	//Variables del menu-----------------------------
     int opcion,codUsuario,registrar,RutaMayor,RutaMenor;
     //------------------------------------------------
+    /*
 	do { 
         system("cls");
          
@@ -378,5 +385,6 @@ int main(){
 	                break;           
     	} 		 
 	}while (opcion != 3);
+	*/
     return 0;
 }
