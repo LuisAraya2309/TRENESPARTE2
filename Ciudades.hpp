@@ -13,6 +13,7 @@ class NodoAVL{
     public: 
     int codCiudad;
 	string nombre;
+	int reservacion;
 	ArbolRN conexiones;
     NodoAVL *izquierda;  
     NodoAVL *derecha;  
@@ -42,7 +43,8 @@ int numeroMayor(int a, int b){
 NodoAVL* newNodoAVL(int codCiudad,string pnombre){  
     NodoAVL *nodoAVL = new NodoAVL(); 
     nodoAVL->codCiudad = codCiudad;
-	nodoAVL->nombre = pnombre;  
+	nodoAVL->nombre = pnombre;
+	nodoAVL->reservacion = 0; 
     nodoAVL->izquierda = NULL;  
     nodoAVL->derecha = NULL;  
     nodoAVL->FB = 1; 

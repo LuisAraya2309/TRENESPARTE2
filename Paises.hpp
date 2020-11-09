@@ -16,6 +16,7 @@ class NodoBinario {
 		valor = v;
 		nombre =pnombre;
 		ciudad = NULL;
+		reservacion = 0;
 		Hder = NULL;
 		Hizq = NULL;
 		siguiente = NULL;
@@ -25,6 +26,7 @@ class NodoBinario {
 	//Atributos
     int valor;
     string nombre;
+    int reservacion;
     NodoBinario *Hizq, *Hder, *siguiente, *anterior;
     NodoAVL *ciudad;
 
@@ -406,7 +408,6 @@ void ConsultarPrecioConexion(pNodoBinario &paises){
 		cout<<"El pais de origen o destino de la conexion no existe"<<endl;
 	}
 }
-
 
 #endif	
 

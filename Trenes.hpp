@@ -13,6 +13,7 @@ class NodoAVLTren{
     public: 
     int codTren;
 	string nombre;
+	int reservacion;
 	int cantAsientos;
     NodoAVLTren *izquierda;  
     NodoAVLTren *derecha;
@@ -44,6 +45,7 @@ NodoAVLTren* newNodoAVLTren(int codTren,string pnombre, int cantAsientos){
     NodoAVLTren *nodoAVLTren = new NodoAVLTren(); 
     nodoAVLTren->codTren = codTren;
 	nodoAVLTren->nombre = pnombre;
+	nodoAVLTren->reservacion = 0;
 	nodoAVLTren->cantAsientos= cantAsientos;  
     nodoAVLTren->izquierda = NULL;  
     nodoAVLTren->derecha = NULL;  
