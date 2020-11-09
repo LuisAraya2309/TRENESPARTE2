@@ -71,9 +71,9 @@ int main(){
         cout << "\n\nInicio de sesion" << endl; 
         cout << "1. Iniciar como Administrador" << endl; 
         cout << "2. Iniciar como Usuario" << endl; 
-        cout << "3. Salir" << endl; 
+        cout << "3. Salir" << endl;
          
-        cout << "\nIngrese una opcion: "; 
+        cout << "\nIngrese una opcion: ";
         cin >> opcion; 
          
         switch (opcion) { 
@@ -82,7 +82,7 @@ int main(){
                 cout<<"Ingrese el codigo de Administrador: "; 
                 cin>> codAdmin; 
                 if (admins.ExisteAdmin(codAdmin)){ //Validar Admin
-                	cout<<"Bienvenido"<<endl; 
+                	cout<<"Bienvenido"<<endl;
                 		int opcion; 
 						do { 
 					        system("cls");
@@ -287,13 +287,16 @@ int main(){
 									cout<<"Ciudad mas visitada: "<<Ciudad(reporteCiudad, paises)<<endl;
 					                system("pause>nul"); // Pausa 
 					                break; 
-								case 15:                
+								case 15:
+									cout<<"El usuario que mas reservo es el de codigo "<<UsuarioMayor(listaUsuarios)->identificacion<<endl;                
 					                system("pause>nul"); // Pausa 
 					                break;
 								case 16: 
+									cout<<"El usuario que menos reservo es el de codigo "<<UsuarioMenor(listaUsuarios)->identificacion<<endl;    
 					                system("pause>nul"); // Pausa 
 					                break; 
-								case 17: 
+								case 17:
+									ReservasUsuarios(listaUsuarios);
 					                system("pause>nul"); // Pausa 
 					                break;
 								case 18:
@@ -301,7 +304,7 @@ int main(){
 					                system("pause>nul"); // Pausa 
 					                break;
 								case 19: 
-									cout<<"Tren menos utilizado: "<<TrenMenor(reporteTren, tipoTrenes)<<endl;
+									cout<<"Tren menos utilizado: "<<DevolverTren2(DevolverTipoTren(tipoTrenes,TrenMenor(reporteTren, tipoTrenes)->identificacion)->tren, TrenMenor(reporteTren, tipoTrenes)->codTren )<<endl;
 					                system("pause>nul"); // Pausa 
 					                break;
 								case 20:

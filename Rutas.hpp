@@ -672,7 +672,7 @@ void Reservacion (pNodoTipoTren &tipoTrenes,pNodoBinario &paises,listaUsuario &l
 						int reservar; cout<<"Si desea finalizar la reservacion digite 1 de lo contrario un 2: "; cin>>reservar; cout<<endl;
 						if(reservar==1){
 							TrenA->cantAsientos = (TrenA->cantAsientos) - cantAsientos;
-							if(ExisteUsuarioL(listaUsuarios,atender->ventanilla.primero->identificacion){
+							if(!ExisteUsuarioL(listaUsuarios,atender->ventanilla.primero->identificacion)){
 								listaUsuarios.InsertarFinal(atender->ventanilla.primero->identificacion);
 							}
 							pnodoUsuario usuario = DevolverUsuario(listaUsuarios,atender->ventanilla.primero->identificacion);
@@ -682,7 +682,6 @@ void Reservacion (pNodoTipoTren &tipoTrenes,pNodoBinario &paises,listaUsuario &l
 							//REPORTES-------------------------------------------------------------------------
 							rutas.DevolverRuta(codRuta)->reservacion++;
 							DevolverPais(paises,rutas.DevolverRuta(codRuta)->codPais2)->reservacion++;
-							DevolverTren(tipoTrenes, rutas.DevolverRuta(codRuta)->codTren)->reservacion++;
 							bool bandera = reporteCiudad.InsertarCiudad(rutas.DevolverRuta(codRuta)->codCiudad2,rutas.DevolverRuta(codRuta)->codPais2);
 							if(!bandera){
 								reporteCiudad.ModCiudad(rutas.DevolverRuta(codRuta)->codCiudad2,rutas.DevolverRuta(codRuta)->codPais2);

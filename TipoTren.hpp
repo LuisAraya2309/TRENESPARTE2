@@ -289,7 +289,7 @@ void VentaTiquetes(listaBoleteria &Pasajeros, ArbolUsuario &usuarios, pNodoBinar
 	int eleccion2;
 	while(eleccion){
 		if (Pasajeros.ListaVacia()) {
-        	cout << "La lista no tiene ningun usuario" << endl;
+        	cout << "La cola de usuarios con reservaciones pendientes esta vacia" << endl;
         	break;
     	}
     	else{
@@ -383,16 +383,18 @@ string TrenMayor(listaBoleteria &ciudad, pNodoTipoTren &tipoTrenes){
 	return DevolverTren2(DevolverTipoTren(tipoTrenes, mayor->identificacion)->tren,mayor->codTren);
 }
 
-string TrenMenor(listaBoleteria &Tren, pNodoTipoTren &tipoTrenes){
+pnodoBoleteria TrenMenor(listaBoleteria &Tren, pNodoTipoTren &tipoTrenes){
 	pnodoBoleteria aux = Tren.primero;
-	pnodoBoleteria menor = Tren.primero;
+	pnodoBoleteria tren = Tren.primero;
+	int menor = aux->reservacion;
 	while(aux!=NULL){
-		if(aux->reservacion<menor->reservacion){
-			menor = aux; 
+		if(menor>aux->reservacion){
+			menor = aux->reservacion;
+			tren = aux;
 		}
 		aux = aux->siguiente;
 	}
-	return DevolverTren2(DevolverTipoTren(tipoTrenes, menor->identificacion)->tren,menor->codTren);
+	return tren;
 }
 
 
