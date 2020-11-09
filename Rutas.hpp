@@ -607,6 +607,55 @@ void PaisMayor(NodoBinario *R,int mayor,string &paisAux){
     }
 }
 
+bool ExisteUsuarioL(listaUsuario &listaUsuarios,int id){
+	pnodoUsuario aux = listaUsuarios.primero;
+	while(aux!=NULL){
+		if(aux->identificacion==id){
+			return true;
+		}
+		else{
+			aux=aux->siguiente;
+		}
+	}
+	return false;
+}
+
+pnodoUsuario UsuarioMayor(listaUsuario &listaUsuarios){
+	pnodoUsuario aux = listaUsuarios.primero;
+	pnodoUsuario usuario = listaUsuarios.primero;
+	int cantMayor = aux->reservacion.largoLista();
+	while(aux!=NULL){
+		if(cantMayor<aux->reservacion.largoLista()){
+			cantMayor = aux->reservacion.largoLista();
+			usuario = aux;
+		}
+		aux = aux->siguiente;
+	}
+	return usuario;
+}
+pnodoUsuario UsuarioMenor(listaUsuario &listaUsuarios){
+	pnodoUsuario aux = listaUsuarios.primero;
+	pnodoUsuario usuario = listaUsuarios.primero;
+	int cantMayor = aux->reservacion.largoLista();
+	while(aux!=NULL){
+		if(cantMayor>aux->reservacion.largoLista()){
+			cantMayor = aux->reservacion.largoLista();
+			usuario = aux;
+		}
+		aux = aux->siguiente;
+	}
+	return usuario;
+}
+
+void ReservasUsuarios(listaUsuario &listaUsuarios){
+	pnodoUsuario aux = listaUsuarios.primero;
+	while(aux!=NULL){
+		cout<<"Usuario: "<<aux->identificacion<<" Cantidad de Reservas: "<<aux->reservacion.largoLista()<<endl;
+		aux=aux->siguiente;
+	}
+}
+
+
 void Reservacion (pNodoTipoTren &tipoTrenes,pNodoBinario &paises,listaUsuario &listaUsuarios, listaC &rutas, listaBoleteria &reporteCiudad, listaBoleteria &reporteTren){
 	int codVentanilla; cout<<"Ingrese el codigo de la ventana que desea atender: "; cin>>codVentanilla; cout<<endl;
 	if(ExisteTipoTren(tipoTrenes,codVentanilla)){
@@ -623,7 +672,9 @@ void Reservacion (pNodoTipoTren &tipoTrenes,pNodoBinario &paises,listaUsuario &l
 						int reservar; cout<<"Si desea finalizar la reservacion digite 1 de lo contrario un 2: "; cin>>reservar; cout<<endl;
 						if(reservar==1){
 							TrenA->cantAsientos = (TrenA->cantAsientos) - cantAsientos;
-							listaUsuarios.InsertarFinal(atender->ventanilla.primero->identificacion);
+							if(ExisteUsuarioL(listaUsuarios,atender->ventanilla.primero->identificacion){
+								listaUsuarios.InsertarFinal(atender->ventanilla.primero->identificacion);
+							}
 							pnodoUsuario usuario = DevolverUsuario(listaUsuarios,atender->ventanilla.primero->identificacion);
 							int precio = DevolverPrecio(rutas, codRuta);
 							usuario->reservacion.InsertarFinal(atender->ventanilla.primero->codTren,codTren,codRuta,cantAsientos,precio);
