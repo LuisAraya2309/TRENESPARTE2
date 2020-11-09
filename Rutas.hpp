@@ -532,14 +532,14 @@ void CargarCodRutas(pNodoTipoTren &tipoTrenes, listaC &rutas){
 			    		while (cantidad!=0){
 			    			int posPC = Todo4.find(";");
 			    			int codRuta = atoi((Todo4.substr(0, posPC).c_str()));
-			    			if(!ExisteCodRuta(trenAux->codRutas.raiz,codRuta)){
+			    			if(ExisteCodRuta(trenAux->codRutas.raiz,codRuta)){
 			    				trenAux->codRutas.insertarBalanceado(codRuta);
 							}
 			    			Todo4 = Todo4.substr(posPC + 1, Todo4.length());
 			    			cantidad--;
 						}
 						int aux = atoi((Todo4).c_str());
-						if(!ExisteCodRuta(trenAux->codRutas.raiz,aux)){
+						if(ExisteCodRuta(trenAux->codRutas.raiz,aux)){
 			    			trenAux->codRutas.insertarBalanceado(aux);
 						}
 						else{
@@ -596,8 +596,8 @@ void Reservacion (pNodoTipoTren &tipoTrenes, listaUsuario &listaUsuarios, listaC
 			int codTren; cout<<"Ingrese el codigo del tren para su reservacion: "; cin>>codTren; cout<<endl;
 			if(ExisteTren(atender->tren, codTren)){
 				NodoAVLTren *TrenA = DevolverTren(atender->tren,codTren);
-				int codRuta; cout<<"Ingrese el codigo de ruta que desea reservar"; cin>>codRuta; cout<<endl;
-				if(ExisteCodRuta(TrenA->codRutas.raiz, codRuta)){
+				int codRuta; cout<<"Ingrese el codigo de ruta que desea reservar: "; cin>>codRuta; cout<<endl;
+				if((rutas.ExisteRuta(codRuta)) && ((rutas.DevolverRuta(codRuta)->codTipTren)== codVentanilla) && ((rutas.DevolverRuta(codRuta)->codTren)==codTren)){
 					int cantAsientos; cout<<"Ingrese la cantidad de asientos que desea reservar: "; cin>>cantAsientos; cout<<endl;
 					if(cantAsientos<=TrenA->cantAsientos){
 						int reservar; cout<<"Si desea finalizar la reservacion digite 1 de lo contrario un 2: "; cin>>reservar; cout<<endl;
@@ -608,7 +608,7 @@ void Reservacion (pNodoTipoTren &tipoTrenes, listaUsuario &listaUsuarios, listaC
 							int precio = DevolverPrecio(rutas, codRuta);
 							usuario->reservacion.InsertarFinal(atender->ventanilla.primero->codTren,codTren,codRuta,cantAsientos,precio);
 							atender->ventanilla.BorrarInicio();
-							cout<<"Reservación agendada con exito"<<endl;
+							cout<<"Reservacion agendada con exito"<<endl;
 						}else{
 							//continue;
 						}
@@ -634,6 +634,5 @@ void Reservacion (pNodoTipoTren &tipoTrenes, listaUsuario &listaUsuarios, listaC
 	}else{
 		cout<<"El tipo de tren ingresado no existe"<<endl;
 	}
-
 }
 

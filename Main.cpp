@@ -37,7 +37,6 @@ int main(){
 	rutas.CargarRutas(paises,tipoTrenes); //Rutas
 	CargarCodRutas(tipoTrenes,rutas); //CodRutas
 	
-	
 	BTree admins(3);
 	CargarAdmin(admins);//Carga admin
 	
@@ -47,9 +46,10 @@ int main(){
 	listaBoleteria boletos;
 	listaUsuario listaUsuarios;
 	
-	boletos.CrearColaPasajeros();
-	VentaTiquetes(boletos,usuarios,paises,tipoTrenes);
-	Reservacion(tipoTrenes,listaUsuarios,rutas);
+
+	
+	//listaUsuarios.Mostrar();
+	//listaUsuarios.primero->reservacion.Mostrar();
 	//---------------------------------------------------------Menu Principal------------------------------------------------- 
     /*int opcion;int codUsuario;int registrar;
 	do { 
@@ -273,7 +273,8 @@ int main(){
 									VentaTiquetes(boletos,usuarios,paises,tipoTrenes);
 					                system("pause>nul"); // Pausa 
 					                break;				                   
-						} 		case 22: 
+						} 		case 22:
+									Reservacion(tipoTrenes,listaUsuarios,rutas);
 					                system("pause>nul"); // Pausa 
 					                break;	
 				}while (opcion != 23);

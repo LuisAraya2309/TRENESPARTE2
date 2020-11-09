@@ -30,7 +30,6 @@ class ArbolRutas{
     pnodoAA Reparto(pnodoAA &nodoP);
     pnodoAA insertarBalanceado(int num);
     void PreordenAA(pnodoAA &raizP);
-
 };
 pnodoAA ArbolRutas::Giro(pnodoAA &nodoP){
     if (nodoP==NULL){
@@ -102,13 +101,15 @@ bool ExisteCodRuta(pnodoAA &raizP, int codRuta){
     if(raizP==NULL){
         return false;
     }
-	else if(raizP->valor==codRuta){
-        return true;
-    }
 	else{
+		if(raizP->valor==codRuta){
+			cout<<raizP->valor<<" - "<<codRuta<<endl;
+			return true;
+		}
         ExisteCodRuta(raizP->Hizq, codRuta);
         ExisteCodRuta(raizP->Hder, codRuta);
     }
 }
+
 
 #endif
