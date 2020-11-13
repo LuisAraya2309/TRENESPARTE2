@@ -375,7 +375,7 @@ int main(){
 							                system("pause>nul"); // Pausa 
 							                break; 
 										case 7: 
-							                CantAsientos(tipoTrenes);               
+							                CantAsientos(tipoTrenes);       
 							                system("pause>nul"); // Pausa 
 							                break;      
 								} 

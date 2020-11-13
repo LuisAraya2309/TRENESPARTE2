@@ -128,6 +128,7 @@ void InsertarTipoTrenes(pNodoTipoTren &tipoTrenes){
 		}
 		else{
 			InsertarTipTren(tipoTrenes,codTipTren,nomTipTren);
+			cout<<"El tipo de tren se ingreso con exito"<<endl;
 		}
 	}		
 }
@@ -226,11 +227,16 @@ void preOrderTren(NodoAVLTren *raiz)  {
 
 void ConsultarTrenes(pNodoTipoTren& tipoTrenes){
 	int codTipTren; cout<<"Ingrese el codigo del tipo de tren al que pertenece el tren: "; cin>>codTipTren; cout<<endl;
-	pNodoTipoTren tipTren = DevolverTipoTren(tipoTrenes,codTipTren);
-	NodoAVLTren *tipoTrenAux = tipTren->tren;
-	cout<<"Trenes de ese tipo: "<<endl;
-	preOrderTren(tipoTrenAux);
-	cout<<endl;
+	if(ExisteTipoTren(tipoTrenes,codTipTren)){
+		pNodoTipoTren tipTren = DevolverTipoTren(tipoTrenes,codTipTren);
+		NodoAVLTren *tipoTrenAux = tipTren->tren;
+		cout<<"Trenes de ese tipo: "<<endl;
+		preOrderTren(tipoTrenAux);
+		cout<<endl;
+	}else{
+		cout<<"El codigo de tipo de tren no existe"<<endl;
+	}
+	
 }
 
 void CantAsientos(pNodoTipoTren& tipoTrenes ){
